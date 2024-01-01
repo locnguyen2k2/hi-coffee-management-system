@@ -1,0 +1,326 @@
+/* Home Page - Begin */
+.admin-container .list-content {
+    padding-top: 50px;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.admin-container .list-content a {
+    display: flex;
+    padding: 10px 20px;
+    margin: 5px 5px;
+    font-size: 20px;
+    height: 100px;
+    width: calc(100%/5);
+    align-items: center;
+    color: #000000;
+    background-color: #FFFFFF;
+    justify-content: center;
+}
+
+.admin-container .list-content a:hover {
+    box-shadow: inset 0 0 25px 25px rgb(75 75 75 / 10%), inset 0 0 3px 2px white;
+    transition: ease-in-out 350ms;
+    transition-property: box-shadow;
+}
+
+/* Home Page - End */
+
+/* Update + View - Begin */
+.update-item,
+.view-item {
+    width: 100%;
+}
+
+.update-item .heading,
+.view-item .heading {
+    width: 100%;
+    padding: 10px 20px;
+    color: #ffffff;
+    font-size: 24px;
+    text-align: center;
+}
+
+.update-item .title,
+.view-item .title {
+    display: flex;
+    width: 100%;
+    padding: 10px 0;
+    border: 1px solid black;
+    background-color: #ede1c6;
+}
+
+.view-item .title>div {
+    text-align: center;
+}
+
+.view-item .dataTable thead th {
+    text-align: center;
+}
+
+.view-item .dataTable tbody tr td:last-child a {
+    color: #000000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.update-item .items span {
+    width: 100%;
+    overflow: hidden;
+}
+
+.update-item .list-item .items {
+    width: 320px;
+    margin: 0 auto;
+}
+
+.update-item .delete-image,
+.update-item .list-item .items select,
+.update-item .list-item .items input {
+    width: 100%;
+    padding: 5px 10px;
+    outline: none;
+    border: none;
+    margin-top: 3px;
+    font-size: 17px;
+}
+
+.update-item .delete-image {
+    width: max-content;
+}
+
+.update-item .list-item .items input[type="submit"] {
+    background-color: rgba(75, 75, 75, 1);
+    cursor: pointer;
+    color: #FFFFFF;
+}
+
+.update-item .top-content,
+.view-item .top-content {
+    display: flex;
+    width: 100%;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.update-item .top-content>a,
+.view-item .top-content>a {
+    display: block;
+    height: 100%;
+    transition-property: box-shadow;
+    transition: ease-in-out 230ms;
+    padding: 10px 20px;
+    text-align: center;
+    color: #000000;
+    cursor: pointer;
+}
+
+.update-item .top-content>a:hover,
+.view-item .top-content>a:hover {
+    transition-property: box-shadow;
+    transition: ease-in-out 430ms;
+    box-shadow: inset 0 0 8px 8px rgba(75, 75, 75, .1), inset 0 0 3px 2px white;
+}
+
+.view-item td {
+    color: #FFFFFF;
+}
+
+/* Update + View - End */
+
+/* Add - Begin */
+.add-form {
+    color: #e9c46a;
+    width: 100%;
+    box-shadow: inset 0 0 8px 8px rgba(75, 75, 75, .1), inset 0 0 3px 2px white;
+    background: linear-gradient(263deg, #264653 0%, #2a9d8f 100%)
+}
+
+.add-form .title {
+    display: flex;
+}
+
+.add-form .title>div {
+    width: calc(100%/5);
+}
+
+.add-form .title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.add-form .title>div {
+    cursor: pointer;
+    padding: 10px 10px;
+}
+
+.add-form .title a {
+    color: #FFFFFF;
+}
+
+.add-form .form>div {
+    width: 100%;
+    margin-bottom: 5px;
+    padding: 5px 10px;
+}
+
+.add-form select,
+.add-form input[type='password'],
+.add-form input[type='email'],
+.add-form input[type='number'],
+.add-form input[type='text'] {
+    width: 100%;
+    border-radius: 3px;
+}
+
+.add-form .form {
+    font-size: 16px;
+}
+
+.add-form .form>div>div {
+    display: flex;
+    padding: 5px 0;
+    font-size: 19px;
+    margin-bottom: 5px;
+}
+
+.add-form .form .images>div {
+    flex-direction: column;
+}
+
+.update-item form .img,
+.add-form .form .images .img>div {
+    display: flex;
+}
+
+.add-form .form .images .img>div div {
+    padding: 0 10px;
+}
+
+.add-form .form .images .img label {
+    margin-left: 5px;
+}
+
+.add-form .add-img-btn,
+.add-form .form>div>div:nth-child(2) {
+    padding-left: 25px;
+}
+
+.add-form .add-img-btn {
+    width: max-content;
+}
+
+.add-form .form>div>div>div {
+    font-size: 17px;
+    padding-right: 25px;
+}
+
+.update-item form .img i,
+.add-form .img i {
+    padding: 5px 10px;
+    opacity: .5;
+    cursor: pointer;
+    background-color: red;
+}
+
+.update-item form .img i {
+    display: flex;
+    align-items: center;
+}
+
+.add-form .img i:hover {
+    opacity: 1;
+}
+
+.add-form .add-img-btn input {
+    width: max-content;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+}
+
+.add-form .form>div select,
+.add-form .form>div input {
+    padding: 5px 10px;
+    border: none;
+    outline: none;
+}
+
+.add-btn {
+    width: 100%;
+}
+
+.add-btn input {
+    color: #000000;
+    width: 100%;
+    text-transform: uppercase;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 3px;
+    background-color: #e9c46a;
+}
+
+.add-form .form {
+    position: relative;
+    margin: 25px 0;
+    border-radius: 7px;
+}
+
+.dataTables_paginate.paging_simple_numbers {
+    display: flex !important;
+}
+
+.dataTables_paginate.paging_simple_numbers span {
+    display: flex !important;
+}
+
+.statistical {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.statistical>div {
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 7px;
+    box-shadow: inset 0 0 8px 8px rgba(75, 75, 75, .1), inset 0 0 3px 2px white;
+}
+
+
+@media only screen and (max-width: 1269px) {
+    .container>.content {
+        width: 100% !important;
+    }
+
+    .admin-container .list-content a {
+        width: calc(100%/3) !important;
+    }
+
+    .view-item .top-content {
+        font-size: 1em;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .admin-container .list-content a {
+        width: 100% !important;
+    }
+
+    .view-item .top-content {
+        font-size: 15px;
+    }
+
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        width: 100% !important;
+    }
+}

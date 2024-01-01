@@ -1,0 +1,383 @@
+/* Order - Begin */
+.order-container {
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.order-container .title h3 {
+    color: #FFFFFF;
+}
+
+.order-container .right-content {
+    flex: .35;
+    overflow: hidden;
+}
+
+.order-container .center-content {
+    flex: .3
+}
+
+.order-container .left-content {
+    flex: .35;
+}
+
+.bill-item .card,
+.bill-item .items {
+    display: flex;
+    color: #FFFFFF;
+    flex-direction: column;
+    background-color: #264653;
+}
+
+.bill-item .items>div {
+    display: flex;
+    flex: 1;
+}
+
+.bill-item .items {
+    height: 100%;
+}
+
+.bill-item .items div span {
+    display: flex;
+    flex: .5;
+}
+
+.order-container .left-content .content a:hover {
+    color: #030303 !important;
+    transition: ease-in-out 400ms background-color;
+    background-color: rgb(198, 209, 188) !important;
+}
+
+.order-container .right-content .items,
+.order-container .right-content .title {
+    display: flex;
+}
+
+.order-container .order-item .title {
+    text-align: center;
+    background-color: #ede1c6;
+}
+
+.order-container .order-item .items {
+    text-align: center;
+    border-left: 0.5px solid black;
+    border-right: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+}
+
+.order-container .order-item .items div {
+    border-right: .5px solid black;
+}
+
+.order-container .order-item .title div:last-child,
+.order-container .order-item .items div:last-child {
+    border: none;
+}
+
+.order-container .order-item .items div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.order-container .center-content .form-order .title-form {
+    text-align: center;
+}
+
+.order-container .center-content .form-order .form {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #264653;
+}
+
+.order-container .form-order .form span {
+    color: #e9c46a;
+}
+
+.order-container .center-content .form-order div select,
+.order-container .center-content .form-order div input {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 2px 3px;
+    border-radius: 3px;
+}
+
+.order-container .center-content .form-order .add-food-item {
+    cursor: pointer;
+}
+
+.order-container .center-content .form-order div input[type="submit"] {
+    margin-top: 5px;
+    padding: 5px 10px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    background-color: rgb(252, 210, 138);
+}
+
+.order-container .right-content .heading,
+.order-container .left-content .title {
+    text-align: center;
+    /* margin-top: 5px; */
+}
+
+.order-container .left-content .content {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+    background-color: #264653;
+    border-radius: 10px;
+}
+
+.left-content .food .content {
+    height: 510px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.left-content .food .content::-webkit-scrollbar {
+    scrollbar-color: #e9c46a #264653;
+}
+
+.center-content .bill-item,
+.order-container .center-content .form-order {
+    padding: 0 5px;
+}
+
+.center-content .bill-item {
+    margin-top: 5px;
+}
+
+.order-container .left-content .content .item {
+    width: calc(100%/3);
+    padding: 5px 10px;
+    cursor: pointer;
+    color: #e9c46a;
+    height: calc(100%/3);
+    background-color: #264653;
+}
+
+.order-container .left-content .content .item img {
+    width: 100% !important;
+    height: 60% !important;
+    object-fit: fill;
+}
+
+.order-container .order-item .items span {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 1;
+    text-overflow: ellipsis;
+    -moz-box-orient: vertical;
+    -webkit-box-orient: vertical;
+}
+
+/* Order - End */
+
+/* Update - Begin */
+.update-item form {
+    flex-direction: column;
+    font-size: 20px;
+}
+
+/* Update - End */
+
+/* Order Detail - Begin */
+.order-detail {
+    width: 320px;
+    padding: 5px 10px;
+    margin: 0 auto;
+    background-color: #ede1c6;
+}
+
+.order-detail div {
+    width: 100%;
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.order-detail div span select,
+.order-detail div span input {
+    width: 100%;
+    padding: 5px 10px;
+}
+
+.order-detail div span:first-child {
+    flex: .3;
+}
+
+.order-detail div span:last-child {
+    flex: .7
+}
+
+/* Order Detail - End */
+
+/* Order + Bill - Begin */
+
+.order-container .order-item .list-item {
+    height: 200px;
+    height: 200px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.right-content .order-item .list-item::-webkit-scrollbar {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 10px;
+    background-color: #264653;
+}
+
+.right-content .order-item .list-item::-webkit-scrollbar-thumb {
+    background-color: #e9c46a;
+    border-radius: 10px;
+}
+
+.left-content .food .content::-webkit-scrollbar {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 10px;
+    background-color: #264653;
+}
+
+.left-content .food .content::-webkit-scrollbar-thumb {
+    background-color: #e9c46a;
+    border-radius: 10px;
+}
+
+.order-container .order-item .items {
+    height: calc(100%/5);
+}
+
+/* Order + Bill - End */
+
+/* Payment - Begin */
+.payment-content {
+    width: 100%;
+    height: 100%;
+}
+
+.payment-content p {
+    margin: 0;
+}
+
+.payment-content .content {
+    display: flex;
+    flex: 1;
+}
+
+.payment-content .bill {
+    display: flex;
+    flex: .7;
+    flex-wrap: wrap;
+}
+
+.payment-content .info {
+    flex: .3;
+}
+
+.payment-content h2 {
+    color: #FFFFFF;
+}
+
+.payment-content .bill .order-items {
+    transition: ease-in-out 300ms;
+    width: calc(100%/4);
+    padding: 5px 10px;
+    cursor: pointer;
+    margin: 5px;
+    color: #000000;
+    border-radius: 5px;
+    background-color: rgb(252, 210, 138);
+}
+
+.payment-content .order-items.paid {
+    background-color: rgb(214, 214, 214);
+    pointer-events: none;
+}
+
+.payment-content .order-items a {
+    border-radius: 5px;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.payment-content .info {
+    border: .5px solid black;
+    border-radius: 10px;
+    padding: 5px;
+    height: max-content;
+}
+
+.payment-content .info>div {
+    display: flex;
+    font-size: 20px;
+    color: #FFFFFF;
+    justify-content: space-between;
+}
+
+.payment-content .info .heading {
+    justify-content: center;
+}
+
+.payment-content .info div>span {
+    display: flex;
+    flex-direction: column;
+}
+
+.payment-content .info .list-food span {
+    width: calc(100%/4);
+}
+
+.payment-content .list-food p {
+    text-align: center;
+}
+
+.payment-content .list-food p:first-child {
+    border-bottom: .5px solid black;
+}
+
+.payment-content .info p {
+    color: #000000;
+    font-size: 15px;
+}
+
+.payment-content .info div:last-child p {
+    font-size: 20px;
+}
+
+.payment-content .order-items form {
+    height: 100%;
+}
+
+.payment-content .info .unpaid span:last-child,
+.payment-content .order-items>div:nth-child(6) {
+    color: red;
+}
+
+.payment-content .order-items .setting a {
+    color: #FFFFFF;
+}
+
+.payment-content .bill .order-items .setting .btn-update,
+.payment-content .bill .order-items .setting .btn-pay {
+    flex: .5;
+}
+
+.food-quantity-item {
+    width: 50%;
+}
+
+.list-food-item {
+    flex-wrap: wrap;
+}
+
+/* Payment - End */
