@@ -19,12 +19,6 @@ html {
 
 body {
     background: #BBD2C5;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #536976, #BBD2C5);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #536976, #BBD2C5);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
 }
 
 .load-page-not-found {
@@ -292,6 +286,7 @@ img {
 
 .header .user-account:hover ul li {
     display: flex;
+    background-color: #d6d3d3;
 }
 
 .header .user-account .account-item:hover>li:hover {
@@ -633,7 +628,7 @@ img {
     margin: 0 5px;
     position: relative;
     width: max-content;
-    background-color: #93aaa7;
+    background-color: #bbd2c5;
 }
 
 .fSignup .btnSignup input,

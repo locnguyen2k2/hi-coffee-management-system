@@ -42,7 +42,7 @@ class Controller
                             if ($value1['roleID'] == 2 && $value1['status'] == 0) {
                                 $_SESSION['user_logged']['roles']['manager'] = $value1['roleID'];
                             }
-                            if ($value1['roleID'] == 2 && $value1['status'] == 0) {
+                            if ($value1['roleID'] == 3 && $value1['status'] == 0) {
                                 $_SESSION['user_logged']['roles']['staff'] = $value1['roleID'];
                             }
                         }
