@@ -6,60 +6,60 @@ Requirements:
 4) Demo link: http://localhost/hicoffee-management-system
 5) Account demo (administrator): username: admin01, password: admin01
 
-Directory:
+Directory Structure
 
-├───.vscode
-│   └───app
-│       ├───config
-│       ├───controllers
-│       ├───core
-│       ├───errors
-│       ├───models
-│       └───views
-│           ├───AccountView
-│           ├───AreaView
-│           ├───BillView
-│           ├───blocks
-│           ├───FoodView
-│           ├───GroupUserView
-│           ├───GroupView
-│           ├───layouts
-│           ├───OrderView
-│           ├───TableView
-│           ├───TypeView
-│           └───UserView
-├───app
-│   ├───bin
-│   ├───config
-│   ├───controllers
-│   │   └───api
-│   ├───core
-│   ├───errors
-│   ├───models
-│   └───views
-│       ├───AccountViews
-│       ├───AreaViews
-│       ├───BillViews
-│       ├───blocks
-│       ├───FoodViews
-│       ├───HomeViews
-│       ├───layouts
-│       ├───OrderViews
-│       ├───PermissionViews
-│       ├───RoleViews
-│       ├───StatisticViews
-│       ├───TableViews
-│       ├───TypeViews
-│       └───UserViews
-├───bootstrap
-├───public
-│   └───static
-│       ├───css
-│       ├───fonts
-│       ├───icons
-│       ├───imgs
-│       └───js
-│───vendor
-├───.htaccess
-├───bootstrap.php
-└───index.php
+├───.vscode<br/>
+│   └───app<br/>
+│       ├───config<br/>
+│       ├───controllers<br/>
+│       ├───core<br/>
+│       ├───errors<br/>
+│       ├───models<br/>
+│       └───views<br/>
+│           ├───AccountView<br/>
+│           ├───AreaView<br/>
+│           ├───BillView<br/>
+│           ├───blocks<br/>
+│           ├───FoodView<br/>
+│           ├───GroupUserView<br/>
+│           ├───GroupView<br/>
+│           ├───layouts<br/>
+│           ├───OrderView<br/>
+│           ├───TableView<br/>
+│           ├───TypeView<br/>
+│           └───UserView<br/>
+├───app<br/>
+│   ├───bin<br/>
+│   ├───config<br/>
+│   ├───controllers<br/>
+│   │   └───api<br/>
+│   ├───core<br/>
+│   ├───errors<br/>
+│   ├───models<br/>
+│   └───views<br/>
+│       ├───AccountViews<br/>
+│       ├───AreaViews<br/>
+│       ├───BillViews<br/>
+│       ├───blocks<br/>
+│       ├───FoodViews<br/>
+│       ├───HomeViews<br/>
+│       ├───layouts<br/>
+│       ├───OrderViews<br/>
+│       ├───PermissionViews<br/>
+│       ├───RoleViews<br/>
+│       ├───StatisticViews<br/>
+│       ├───TableViews<br/>
+│       ├───TypeViews<br/>
+│       └───UserViews<br/>
+├───bootstrap<br/>
+├───public<br/>
+│   └───static<br/>
+│       ├───css<br/>
+│       ├───fonts<br/>
+│       ├───icons<br/>
+│       ├───imgs<br/>
+│       └───js<br/>
+│───vendor<br/>
+├───.htaccess<br/>
+├───bootstrap.php<br/>
+└───index.php<br/>
