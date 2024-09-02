@@ -17,8 +17,12 @@ html {
     overflow-x: hidden;
 }
 
+body.signin {
+    background: url('./../imgs/bg-login.jpg') center/cover no-repeat;
+}
+
 body {
-    background: #BBD2C5;
+    background-color: #b9d0fa;
 }
 
 .load-page-not-found {
@@ -528,6 +532,7 @@ img {
 .form-login {
     display: flex;
     height: max-content;
+    background-color: #FFFFFF;
 }
 
 .form-signup,
@@ -628,7 +633,7 @@ img {
     margin: 0 5px;
     position: relative;
     width: max-content;
-    background-color: #bbd2c5;
+    background-color: #FFFFFF;
 }
 
 .fSignup .btnSignup input,

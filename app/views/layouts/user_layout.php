@@ -17,7 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 </head>
 
-<body>
+<body class="<?php echo isset($_SESSION['user_logged']['roles']) ? '' : 'signin' ?>">
     <?php require_once(_DIR_ROOT . '/app/views/blocks/header.php'); ?>
     <?php require_once(_DIR_ROOT . '/app/views/blocks/menu.php'); ?>
     <div id="main-container">

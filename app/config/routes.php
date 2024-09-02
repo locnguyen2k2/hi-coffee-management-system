@@ -48,5 +48,11 @@ $routes['chi-tiet-don-dat/'] = 'OrderController/getOrderDetail/';
 // ThongKeController
 $routes['thong-ke-hoa-don-trong-ngay'] = 'StatisticController/getDailyInvoiceStatistic';
 // APIs
-$routes['api/dang-nhap'] = 'APIController/ApiAccountController/signin/';
-$routes['api/danh-sach-mon'] = 'APIController/ApiFoodController/getListFood/';
+$routes['api/dang-nhap'] = 'api/AccountController/signin/';
+$routes['api/danh-sach-mon'] = 'api/FoodController/getListFood/';
+$routes['api/danh-sach-mon'] = 'api/CategoryController/getListCategory/';
+$routes['api/them-hoa-don'] = 'api/OrderController/addOrder';
+$routes['api/chi-tiet-hoa-don'] = 'api/InvoiceController/getInvoiceDetail/';
+$routes['api/danh-sach-hoa-don-theo-ban'] = 'api/InvoiceController/getListInvoiceByTable/';
+$routes['api/thong-ke-trong-ngay'] = 'api/StatisticController/getDailyInvoiceStatistic';
+$routes['api/thong-ke-theo-ngay'] = 'api/StatisticController/getInvoiceStatisticsInRange';

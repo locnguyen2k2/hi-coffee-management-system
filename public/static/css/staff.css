@@ -296,12 +296,14 @@
     margin: 5px;
     color: #000000;
     border-radius: 5px;
-    background-color: rgb(252, 210, 138);
+    /* background-color: #FFFFFF; */
 }
 
 .payment-content .order-items.paid {
-    background-color: rgb(214, 214, 214);
+    background: none;
+    border: 2px solid white;
     pointer-events: none;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .payment-content .order-items a {
@@ -365,13 +367,28 @@
     color: red;
 }
 
-.payment-content .order-items .setting a {
-    color: #FFFFFF;
+.payment-content .bill .order-items .setting .btn-pay {
+    border: .1rem solid #49c700db !important;
+}
+
+.payment-content .order-items .btn-pay a {
+    color: #49c700db
+}
+
+.payment-content .order-items .btn-update {
+    border: .1rem solid #000000db !important;
+}
+
+.payment-content .order-items .btn-update a {
+    color: #000000
 }
 
 .payment-content .bill .order-items .setting .btn-update,
 .payment-content .bill .order-items .setting .btn-pay {
     flex: .5;
+    margin: 0 5px;
+    border-radius: 8px;
+    background: none;
 }
 
 .food-quantity-item {
