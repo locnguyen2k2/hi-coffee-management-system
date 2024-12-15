@@ -10,23 +10,26 @@
     } else if (isset($isNull)) {
         echo $isNull;
     }
-    ;
     ?>
 </div>
 <div class="form-login justify-content-center">
     <form class="fSignin child-component" method="POST"
-        action="<?php echo _WEB_ROOT ?>/lay-lai-mat-khau">
+          action="<?php echo _WEB_ROOT ?>/lay-lai-mat-khau">
         <div class="inpUsername"><span><a><i class="fas fa-user"></i> Tài khoản </a></span><input type="text"
-                class="inpUsername" id="inpUsername" name="inpUsername" placeholder="Tên tài khoản"></div>
+                                                                                                  class="inpUsername"
+                                                                                                  id="inpUsername"
+                                                                                                  name="inpUsername"
+                                                                                                  placeholder="Tên tài khoản">
+        </div>
         <div class="inpPassword">
             <span>
                 <a><i class="fa-solid fa-envelope"></i> Email </a>
             </span>
             <input type="email" class="inpPassword" id="inpPassword" placeholder="Email được liên kết với tài khoản"
-                name="inpEmail">
+                   name="inpEmail">
         </div>
         <div class="btnSignin"><input type="submit" class="btnSignin" id="btnSignin" name="btnResetPassword"
-                value="Lấy lại mật khẩu">
+                                      value="Lấy lại mật khẩu">
         </div>
     </form>
 </div>

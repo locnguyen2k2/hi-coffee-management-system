@@ -59,13 +59,13 @@
                 </div>
                 <div class="btn-pay">
                     <form method="post"
-                        action="<?php echo _WEB_ROOT ?>/thanh-toan-don-dat/<?php echo $order_detail['order_id'] ?>">
+                          action="<?php echo _WEB_ROOT ?>/thanh-toan-don-dat/<?php echo $order_detail['order_id'] ?>">
                         <input type="submit" name="btn-pay-order" value="Thanh toán">
                     </form>
                 </div>
                 <div class="btn-delete">
                     <form method="post"
-                        action="<?php echo _WEB_ROOT ?>/xoa-don-dat/<?php echo $order_detail['order_id'] ?>">
+                          action="<?php echo _WEB_ROOT ?>/xoa-don-dat/<?php echo $order_detail['order_id'] ?>">
                         <input type="submit" name="btn-delete-order" value="Xóa">
                     </form>
                 </div>

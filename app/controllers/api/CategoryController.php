@@ -1,12 +1,15 @@
 <?php
+
 class CategoryController extends Controller
 {
     public $data = [], $category = [];
+
     function __construct()
     {
         $this->category = $this->model('TypeModel');
 
     }
+
     function getListCategory()
     {
         $this->data['data'] = $this->category->getListType();
@@ -61,4 +64,5 @@ class CategoryController extends Controller
         echo json_encode($this->data);
     }
 }
+
 ?>

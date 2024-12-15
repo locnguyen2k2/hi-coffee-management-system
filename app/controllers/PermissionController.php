@@ -1,10 +1,12 @@
-<?php 
+<?php
+
 class PermissionController extends Controller
 {
     public $role = [];
     public $user = [];
     public $permission = [];
     public $data = [];
+
     function __construct()
     {
         if (!isset($_SESSION['user_logged']['roles']['admin'])) {
@@ -16,6 +18,7 @@ class PermissionController extends Controller
             $this->data['content'] = 'PermissionViews/';
         }
     }
+
     function addPermission()
     {
         if (isset($_SESSION['user_logged']['roles']['admin'])) {
@@ -47,17 +50,10 @@ class PermissionController extends Controller
             }
         }
     }
-    function getListPermission()
-    {
-        $this->data['content'] = $this->data['content'] . 'list_permission';
-        $this->data['sub_content']['list_permission'] = $this->permission->getListPermission();
-        $this->data['sub_content']['list_role'] = $this->role->getListRole();
-        $this->data['sub_content']['list_user'] = $this->user->getListUser();
-        $this->render('layouts/admin_layout', $this->data);
-    }
+
     function updatePermission($groupuserID)
     {
-        if ((int) $groupuserID != 0 and $this->isFieldValid($this->permission->getPermissionByID($groupuserID)['roleID'])) {
+        if ((int)$groupuserID != 0 and $this->isFieldValid($this->permission->getPermissionByID($groupuserID)['roleID'])) {
             $this->data['content'] = $this->data['content'] . 'update_permission';
             $this->data['sub_content']['permission'] = $this->permission->getPermissionByID($groupuserID);
             $this->data['sub_content']['list_role'] = $this->role->getListRole();
@@ -100,5 +96,14 @@ class PermissionController extends Controller
         } else {
             header('Location: ' . _WEB_ROOT . '/danh-sach-phan-quyen');
         }
+    }
+
+    function getListPermission()
+    {
+        $this->data['content'] = $this->data['content'] . 'list_permission';
+        $this->data['sub_content']['list_permission'] = $this->permission->getListPermission();
+        $this->data['sub_content']['list_role'] = $this->role->getListRole();
+        $this->data['sub_content']['list_user'] = $this->user->getListUser();
+        $this->render('layouts/admin_layout', $this->data);
     }
 }

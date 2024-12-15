@@ -19,7 +19,8 @@
         </div>
         <button type="submit" class="btn btn-dark btn-statistical">Thống kê</button>
     </div>
-</div><canvas id="myChart"></canvas>
+</div>
+<canvas id="myChart"></canvas>
 
 <div class="bill-picker">
     <?php

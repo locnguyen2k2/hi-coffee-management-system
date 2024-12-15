@@ -1,4 +1,5 @@
 <?php
+
 class PermissionModel
 {
     // Xóa thông tin về quyền, phân quyền, người dùng: truyền vào ID cần xóa
@@ -7,6 +8,7 @@ class PermissionModel
         $sql = "DELETE FROM tbl_permission WHERE userID = $id; DELETE FROM tbl_user WHERE id = $id";
         pdo_execute($sql);
     }
+
     // Lấy danh sách phân quyền người dùng
     function getListPermission()
     {
@@ -16,6 +18,7 @@ class PermissionModel
         $row = pdo_query($sql);
         return $row;
     }
+
     // Lấy danh sách phân quyền của một quyền: truyền id quyền
     function getPermissionByID($id)
     {
@@ -25,6 +28,7 @@ class PermissionModel
         $row = pdo_query_one($sql);
         return $row;
     }
+
     // Lấy danh sách phân quyền của một người dùng: truyền vào id người dùng
     function getPermissionByUser($id)
     {
@@ -34,17 +38,20 @@ class PermissionModel
         $row = pdo_query($sql);
         return $row;
     }
+
     // Cập nhật phân quyền: id phân quyền, id quyền, trạng thái
     function updatePermission($id, $groupID, $status)
     {
         $sql = "UPDATE tbl_permission SET roleID = $groupID, status = $status WHERE id = $id;";
         pdo_execute($sql);
     }
+
     function updatePermissionStatus($id, $status)
     {
         $sql = "UPDATE tbl_permission SET status = $status WHERE id = $id;";
         pdo_execute($sql);
     }
+
     // Thêm phân quyền: truyền vào id người dùng và id quyền
     function addPermission($userID, $groupID)
     {

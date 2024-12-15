@@ -61,62 +61,62 @@
                             <div class="setting">
                                 <div class="btn-pay">
                                     <a
-                                        href="<?php echo _WEB_ROOT ?>/chi-tiet-don-dat/<?php echo $value['orderID'] ?>.<?php echo $value['foodID'] ?>">Thanh
+                                            href="<?php echo _WEB_ROOT ?>/chi-tiet-don-dat/<?php echo $value['orderID'] ?>.<?php echo $value['foodID'] ?>">Thanh
                                         toán
                                     </a>
                                 </div>
                                 <div class="btn-update">
                                     <a
-                                        href="<?php echo _WEB_ROOT ?>/cap-nhat-don-dat/<?php echo $value['orderID'] ?>.<?php echo $value['foodID'] ?>">Cập
+                                            href="<?php echo _WEB_ROOT ?>/cap-nhat-don-dat/<?php echo $value['orderID'] ?>.<?php echo $value['foodID'] ?>">Cập
                                         nhật
                                     </a>
                                 </div>
                             </div>
                         </div>
                     <?php } else if (isset($value['id']) && $value['status'] == 1) { ?>
-                            <div class="order-items paid">
-                                <div>
+                        <div class="order-items paid">
+                            <div>
                                     <span>Mã đơn đặt:
                                     <?php echo $value['orderID'] ?>
                                     </span>
-                                </div>
-                                <div>
+                            </div>
+                            <div>
                                     <span>Món:
                                         <?php
                                         echo $value['foodName']
-                                            ?>
+                                        ?>
                                     </span>
-                                </div>
-                                <div>
+                            </div>
+                            <div>
                                     <span>Loại:
                                     <?php echo $value['typeName'] ?>
                                     </span>
-                                </div>
-                                <div>
+                            </div>
+                            <div>
                                     <span>Giá:
                                     <?php echo number_format($value['price'], 0, ',', '.') . ' đ'; ?>
                                     </span>
-                                </div>
-                                <div>
+                            </div>
+                            <div>
                                     <span>Số lượng:
                                     <?php echo $value['quantity']; ?>
                                     </span>
-                                </div>
-                                <div>
+                            </div>
+                            <div>
                                     <span>Thành tiền:
                                     <?php echo number_format($value['total'], 0, ',', '.') . ' đ'; ?>
                                     </span>
-                                </div>
-                                <div>
-                                    <span>Trạng thái: Đã thanh toán</span>
-                                </div>
-                                <div>
+                            </div>
+                            <div>
+                                <span>Trạng thái: Đã thanh toán</span>
+                            </div>
+                            <div>
                                     <span>Ngày tạo:
                                     <?php echo $value['created_at']; ?>
                                     </span>
-                                </div>
                             </div>
-                        <?php }
+                        </div>
+                    <?php }
                 }
             } ?>
         </div>

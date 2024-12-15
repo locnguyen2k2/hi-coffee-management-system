@@ -36,16 +36,16 @@
             <div><span>4) Mật khẩu: </span></div>
             <input type="password" name="password" placeholder="Nhập mật khẩu">
         </div>
-        <div class="password2">
-            <div><span>5) Nhập lại mật khẩu: </span></div>
-            <input type="password" name="password2" placeholder="Nhập lại mật khẩu">
-        </div>
+        <!--        <div class="password2">-->
+        <!--            <div><span>5) Nhập lại mật khẩu: </span></div>-->
+        <!--            <input type="password" name="password2" placeholder="Nhập lại mật khẩu">-->
+        <!--        </div>-->
         <div class="phonenumb">
-            <div><span>6) Nhập số điện thoại: </span></div>
+            <div><span>5) Nhập số điện thoại: </span></div>
             <input type="text" name="phonenumb" placeholder="Nhập số điện thoại">
         </div>
         <div class="email">
-            <div><span>7) Nhập email: </span></div>
+            <div><span>6) Nhập email: </span></div>
             <input type="email" name="email" placeholder="Nhập email">
         </div>
         <div class="add-btn"><input type="submit" name="add-account-btn" value="thêm"></div>
@@ -57,7 +57,7 @@
             $(this).parent().parent().find('.lname input').val() == '' ||
             $(this).parent().parent().find('.username input').val() == '' ||
             $(this).parent().parent().find('.password input').val() == '' ||
-            $(this).parent().parent().find('.password2 input').val() == '' ||
+            // $(this).parent().parent().find('.password2 input').val() == '' ||
             $(this).parent().parent().find('.phonenumb input').val() == '' ||
             $(this).parent().parent().find('.email input').val() == ''
         ) {
@@ -68,7 +68,7 @@
             formData.append('lname', $(this).parent().parent().find('.lname input').val());
             formData.append('username', $(this).parent().parent().find('.username input').val());
             formData.append('password', $(this).parent().parent().find('.password input').val());
-            formData.append('password2', $(this).parent().parent().find('.password2 input').val());
+            // formData.append('password2', $(this).parent().parent().find('.password2 input').val());
             formData.append('phonenumb', $(this).parent().parent().find('.phonenumb input').val());
             formData.append('email', $(this).parent().parent().find('.email input').val());
             formData.append('add-account-btn', true);

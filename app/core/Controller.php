@@ -1,4 +1,5 @@
 <?php
+
 class Controller
 {
     function render($view, $data = []) // Hàm render view
@@ -10,28 +11,19 @@ class Controller
             require_once 'app/errors/404.php';
         }
     }
-    public function model($model) // Hàm load model
-    {
-        if (file_exists(_DIR_ROOT . '/app/models/' . $model . '.php')) {
-            require_once(_DIR_ROOT . '/app/models/' . $model . '.php');
-            if (class_exists($model)) {
-                $model = new $model(); // Khởi tạo lớp của model
-                return $model;
-            }
-        }
-        return false;
-    }
+
     function isFieldValid($field) // Hàm kiểm tra trường có hợp lệ
     {
         return !empty(trim($field));
     }
+
     function checkSignin($username, $password) // Hàm kiểm tra đăng nhập
     {
         $users = $this->model('UserModel');
         $permission = $this->model('PermissionModel');
         foreach ($users->getListUser() as $key => $value) {
             if ($value['username'] == $username) {
-                if ($value['password'] == $password) {
+                if (password_verify($password, $value['password'])) {
                     if ($value['status'] == 0) {
                         $_SESSION['user_logged']['name'] = $value['fname'] . ' ' . $value['lname'];
                         $_SESSION['user_logged']['username'] = $value['username'];
@@ -52,5 +44,17 @@ class Controller
                 }
             }
         }
+    }
+
+    public function model($model) // Hàm load model
+    {
+        if (file_exists(_DIR_ROOT . '/app/models/' . $model . '.php')) {
+            require_once(_DIR_ROOT . '/app/models/' . $model . '.php');
+            if (class_exists($model)) {
+                $model = new $model(); // Khởi tạo lớp của model
+                return $model;
+            }
+        }
+        return false;
     }
 }

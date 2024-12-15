@@ -11,6 +11,7 @@ function database() // Kết nối database
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Lỗi sẽ được báo lỗi
     return $conn;
 }
+
 function pdo_execute($sql) // Thực thi câu lệnh SQL
 {
     $sql_args = array_slice(func_get_args(), 1); // Lấy các tham số truyền vào
@@ -24,6 +25,7 @@ function pdo_execute($sql) // Thực thi câu lệnh SQL
         unset($conn);
     }
 }
+
 function pdo_query($sql) // Trả về nhiều dữ liệu
 {
     $sql_args = array_slice(func_get_args(), 1);
@@ -39,6 +41,7 @@ function pdo_query($sql) // Trả về nhiều dữ liệu
         unset($conn);
     }
 }
+
 function pdo_query_one($sql) // Trả về 1 dữ liệu
 {
     $sql_args = array_slice(func_get_args(), 1);
@@ -54,4 +57,5 @@ function pdo_query_one($sql) // Trả về 1 dữ liệu
         unset($conn);
     }
 }
+
 ?>

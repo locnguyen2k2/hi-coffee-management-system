@@ -62,8 +62,8 @@
                 <div>
                     <span>
                         <input class="status" type="number"
-                            value="<?php echo $permission['status'] ?>" min="0" max="1"
-                            name="status">
+                               value="<?php echo $permission['status'] ?>" min="0" max="1"
+                               name="status">
                     </span>
                 </div>
                 <div class="setting">

@@ -4,21 +4,21 @@
         <div class="heading"><span>Danh sách quyền người dùng</span></div>
         <table class="content" id="group_table">
             <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Tên quyền</th>
-                    <th>Cập nhật</th>
-                </tr>
+            <tr>
+                <th>STT</th>
+                <th>Tên quyền</th>
+                <th>Cập nhật</th>
+            </tr>
             </thead>
             <tbody>
-                <?php
-                foreach ($list_role as $key => $value) {
-                    echo '<tr>';
-                    echo '<td>' . $key + 1 . '</td>';
-                    echo '<td>' . $value['name'] . '</td>';
-                    echo '<td><a class="update-group-item" group-id="' . $value['id'] . '">Cập nhật</a></td>';
-                    echo '</tr>';
-                } ?>
+            <?php
+            foreach ($list_role as $key => $value) {
+                echo '<tr>';
+                echo '<td>' . $key + 1 . '</td>';
+                echo '<td>' . $value['name'] . '</td>';
+                echo '<td><a class="update-group-item" group-id="' . $value['id'] . '">Cập nhật</a></td>';
+                echo '</tr>';
+            } ?>
             </tbody>
         </table>
     </div>

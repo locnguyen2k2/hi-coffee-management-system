@@ -1,8 +1,13 @@
-<?php 
+<?php
+
+use WebSocket\Client;
+
 class OrderController extends Controller
 {
     public $food = [], $table = [], $type = [], $invoice = [], $tempinvoice = [], $order = [], $orderdetail = [];
     public $data = [];
+    public $client;
+
     function __construct()
     {
         if (!isset($_SESSION['user_logged']['roles']['admin']) && !isset($_SESSION['user_logged']['roles']['staff'])) {
@@ -16,8 +21,10 @@ class OrderController extends Controller
             $this->tempinvoice = $this->model('TempInvoiceModel');
             $this->orderdetail = $this->model('OrderDetailModel');
             $this->data['content'] = 'OrderViews/';
+            $this->client = new Client('ws://localhost:8080');
         }
     }
+
     function addOrder()
     {
         $this->data['content'] .= 'add_order';
@@ -51,6 +58,7 @@ class OrderController extends Controller
                         }
                         return false;
                     }
+
                     if (!isset($table_id)) { // Kiểm tra bàn có tồn tại không
                         $this->data['sub_content']['isNull'] = '<div class="alert alert-danger" role="alert">Bàn không tồn tại!</div>';
                         $this->render('layouts/staff_layout', $this->data);
@@ -194,19 +202,16 @@ class OrderController extends Controller
                                     echo $value1['name'];
                                     break;
                                 }
-                            }
-                            ;
+                            };
                             echo '</span></div><div> <span>Món: </span> <span>';
                             foreach ($this->food->getListFood() as $key2 => $value2) {
                                 if ($value['foodID'] == $value2['id']) {
                                     echo $value2['name'];
                                     break;
                                 }
-                            }
-                            ;
+                            };
                             echo '</span></div><div><span>Số lượng: </span><span>' . $value['quantity'] . '</span></div><div><span>Thành tiền: </span><span>' . number_format($value['total'], 0, ',', '.') . ' đ' . '</span></div><div><span>Trạng thái: </span><span>Chờ thanh toán</span></div><div><span>Ngày đặt: </span><span>' . $value['created_at'] . '</span></div></a></div></div></div>';
-                        }
-                        ;
+                        };
                         echo '</div><button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span></button><button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"data-bs-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next</span></button></div></div></div>';
                     }
                 }
@@ -215,27 +220,12 @@ class OrderController extends Controller
             $this->render('layouts/staff_layout', $this->data);
         }
     }
-    function getOrderDetail($id)
-    {
-        $orderID = explode('.', $id)[0];
-        $foodID = explode('.', $id)[1];
-        if ((int) $orderID != 0 and $this->isFieldValid($this->orderdetail->getOrderDetail($orderID, $foodID)['orderID'])) { // Kiểm tra xem có tồn tại đơn đặt và món đó không
-            $orderdetail = $this->orderdetail->getOrderDetail($orderID, $foodID);
-            $this->data['sub_content']['table'] = $this->table->getTableByID($orderdetail['tableID']);
-            $this->data['sub_content']['food'] = $this->food->getFoodByID($orderdetail['foodID']);
-            $this->data['sub_content']['type'] = $this->type->getTypeByID($orderdetail['typeID']);
-            $this->data['sub_content']['order_detail'] = $orderdetail;
-            $this->data['content'] .= 'order_detail';
-        } else {
-            header('Location: ' . _WEB_ROOT . '/them-don-dat');
-        }
-        $this->render('layouts/staff_layout', $this->data);
-    }
+
     function deleteOrder($id)
     {
         $orderID = explode('.', $id)[0];
         $foodID = explode('.', $id)[1];
-        if ((int) $orderID != 0 and $this->isFieldValid($this->orderdetail->getOrderDetail($orderID, $foodID)['orderID'])) { // Kiểm tra xem có tồn tại đơn đặt và món đó không
+        if ((int)$orderID != 0 and $this->isFieldValid($this->orderdetail->getOrderDetail($orderID, $foodID)['orderID'])) { // Kiểm tra xem có tồn tại đơn đặt và món đó không
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn-delete-order'])) {
                 if ($this->orderdetail->getOrderDetail($orderID, $foodID) == true) {
                     $table_id = $this->orderdetail->getOrderDetail($orderID, $foodID)['tableID'];
@@ -254,115 +244,133 @@ class OrderController extends Controller
             header('Location: ' . _WEB_ROOT . '/them-don-dat');
         }
     }
+
+    function getOrderDetail($id)
+    {
+        $orderID = explode('.', $id)[0];
+        $foodID = explode('.', $id)[1];
+        if ((int)$orderID != 0 and $this->isFieldValid($this->orderdetail->getOrderDetail($orderID, $foodID)['orderID'])) { // Kiểm tra xem có tồn tại đơn đặt và món đó không
+            $orderdetail = $this->orderdetail->getOrderDetail($orderID, $foodID);
+            $this->data['sub_content']['table'] = $this->table->getTableByID($orderdetail['tableID']);
+            $this->data['sub_content']['food'] = $this->food->getFoodByID($orderdetail['foodID']);
+            $this->data['sub_content']['type'] = $this->type->getTypeByID($orderdetail['typeID']);
+            $this->data['sub_content']['order_detail'] = $orderdetail;
+            $this->data['content'] .= 'order_detail';
+        } else {
+            header('Location: ' . _WEB_ROOT . '/them-don-dat');
+        }
+        $this->render('layouts/staff_layout', $this->data);
+    }
     // function thanhtoan_vnpay()
     // {
-        // $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        // $vnp_Returnurl = "https://localhost/vnpay_php/vnpay_return.php";
-        // $vnp_TmnCode = ""; //Mã website tại VNPAY 
-        // $vnp_HashSecret = ""; //Chuỗi bí mật
+    // $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+    // $vnp_Returnurl = "https://localhost/vnpay_php/vnpay_return.php";
+    // $vnp_TmnCode = ""; //Mã website tại VNPAY
+    // $vnp_HashSecret = ""; //Chuỗi bí mật
 
-        // $vnp_TxnRef = $_POST['order_id']; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-        // $vnp_OrderInfo = $_POST['order_desc'];
-        // $vnp_OrderType = $_POST['order_type'];
-        // $vnp_Amount = $_POST['amount'] * 100;
-        // $vnp_Locale = $_POST['language'];
-        // $vnp_BankCode = $_POST['bank_code'];
-        // $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-        // //Add Params of 2.0.1 Version
-        // $vnp_ExpireDate = $_POST['txtexpire'];
-        // //Billing
-        // $vnp_Bill_Mobile = $_POST['txt_billing_mobile'];
-        // $vnp_Bill_Email = $_POST['txt_billing_email'];
-        // $fullName = trim($_POST['txt_billing_fullname']);
-        // if (isset($fullName) && trim($fullName) != '') {
-        //     $name = explode(' ', $fullName);
-        //     $vnp_Bill_FirstName = array_shift($name);
-        //     $vnp_Bill_LastName = array_pop($name);
-        // }
-        // $vnp_Bill_Address = $_POST['txt_inv_addr1'];
-        // $vnp_Bill_City = $_POST['txt_bill_city'];
-        // $vnp_Bill_Country = $_POST['txt_bill_country'];
-        // $vnp_Bill_State = $_POST['txt_bill_state'];
-        // // Invoice
-        // $vnp_Inv_Phone = $_POST['txt_inv_mobile'];
-        // $vnp_Inv_Email = $_POST['txt_inv_email'];
-        // $vnp_Inv_Customer = $_POST['txt_inv_customer'];
-        // $vnp_Inv_Address = $_POST['txt_inv_addr1'];
-        // $vnp_Inv_Company = $_POST['txt_inv_company'];
-        // $vnp_Inv_Taxcode = $_POST['txt_inv_taxcode'];
-        // $vnp_Inv_Type = $_POST['cbo_inv_type'];
-        // $inputData = array(
-        //     "vnp_Version" => "2.1.0",
-        //     "vnp_TmnCode" => $vnp_TmnCode,
-        //     "vnp_Amount" => $vnp_Amount,
-        //     "vnp_Command" => "pay",
-        //     "vnp_CreateDate" => date('YmdHis'),
-        //     "vnp_CurrCode" => "VND",
-        //     "vnp_IpAddr" => $vnp_IpAddr,
-        //     "vnp_Locale" => $vnp_Locale,
-        //     "vnp_OrderInfo" => $vnp_OrderInfo,
-        //     "vnp_OrderType" => $vnp_OrderType,
-        //     "vnp_ReturnUrl" => $vnp_Returnurl,
-        //     "vnp_TxnRef" => $vnp_TxnRef,
-        //     "vnp_ExpireDate" => $vnp_ExpireDate,
-        //     "vnp_Bill_Mobile" => $vnp_Bill_Mobile,
-        //     "vnp_Bill_Email" => $vnp_Bill_Email,
-        //     "vnp_Bill_FirstName" => $vnp_Bill_FirstName,
-        //     "vnp_Bill_LastName" => $vnp_Bill_LastName,
-        //     "vnp_Bill_Address" => $vnp_Bill_Address,
-        //     "vnp_Bill_City" => $vnp_Bill_City,
-        //     "vnp_Bill_Country" => $vnp_Bill_Country,
-        //     "vnp_Inv_Phone" => $vnp_Inv_Phone,
-        //     "vnp_Inv_Email" => $vnp_Inv_Email,
-        //     "vnp_Inv_Customer" => $vnp_Inv_Customer,
-        //     "vnp_Inv_Address" => $vnp_Inv_Address,
-        //     "vnp_Inv_Company" => $vnp_Inv_Company,
-        //     "vnp_Inv_Taxcode" => $vnp_Inv_Taxcode,
-        //     "vnp_Inv_Type" => $vnp_Inv_Type
-        // );
-
-        // if (isset($vnp_BankCode) && $vnp_BankCode != "") {
-        //     $inputData['vnp_BankCode'] = $vnp_BankCode;
-        // }
-        // if (isset($vnp_Bill_State) && $vnp_Bill_State != "") {
-        //     $inputData['vnp_Bill_State'] = $vnp_Bill_State;
-        // }
-
-        // //var_dump($inputData);
-        // ksort($inputData);
-        // $query = "";
-        // $i = 0;
-        // $hashdata = "";
-        // foreach ($inputData as $key => $value) {
-        //     if ($i == 1) {
-        //         $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
-        //     } else {
-        //         $hashdata .= urlencode($key) . "=" . urlencode($value);
-        //         $i = 1;
-        //     }
-        //     $query .= urlencode($key) . "=" . urlencode($value) . '&';
-        // }
-
-        // $vnp_Url = $vnp_Url . "?" . $query;
-        // if (isset($vnp_HashSecret)) {
-        //     $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
-        //     $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
-        // }
-        // $returnData = array(
-        //     'code' => '00'
-        //     ,
-        //     'message' => 'success'
-        //     ,
-        //     'data' => $vnp_Url
-        // );
-        // if (isset($_POST['redirect'])) {
-        //     header('Location: ' . $vnp_Url);
-        //     die();
-        // } else {
-        //     echo json_encode($returnData);
-        // }
-        // // vui lòng tham khảo thêm tại code demo
+    // $vnp_TxnRef = $_POST['order_id']; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+    // $vnp_OrderInfo = $_POST['order_desc'];
+    // $vnp_OrderType = $_POST['order_type'];
+    // $vnp_Amount = $_POST['amount'] * 100;
+    // $vnp_Locale = $_POST['language'];
+    // $vnp_BankCode = $_POST['bank_code'];
+    // $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+    // //Add Params of 2.0.1 Version
+    // $vnp_ExpireDate = $_POST['txtexpire'];
+    // //Billing
+    // $vnp_Bill_Mobile = $_POST['txt_billing_mobile'];
+    // $vnp_Bill_Email = $_POST['txt_billing_email'];
+    // $fullName = trim($_POST['txt_billing_fullname']);
+    // if (isset($fullName) && trim($fullName) != '') {
+    //     $name = explode(' ', $fullName);
+    //     $vnp_Bill_FirstName = array_shift($name);
+    //     $vnp_Bill_LastName = array_pop($name);
     // }
+    // $vnp_Bill_Address = $_POST['txt_inv_addr1'];
+    // $vnp_Bill_City = $_POST['txt_bill_city'];
+    // $vnp_Bill_Country = $_POST['txt_bill_country'];
+    // $vnp_Bill_State = $_POST['txt_bill_state'];
+    // // Invoice
+    // $vnp_Inv_Phone = $_POST['txt_inv_mobile'];
+    // $vnp_Inv_Email = $_POST['txt_inv_email'];
+    // $vnp_Inv_Customer = $_POST['txt_inv_customer'];
+    // $vnp_Inv_Address = $_POST['txt_inv_addr1'];
+    // $vnp_Inv_Company = $_POST['txt_inv_company'];
+    // $vnp_Inv_Taxcode = $_POST['txt_inv_taxcode'];
+    // $vnp_Inv_Type = $_POST['cbo_inv_type'];
+    // $inputData = array(
+    //     "vnp_Version" => "2.1.0",
+    //     "vnp_TmnCode" => $vnp_TmnCode,
+    //     "vnp_Amount" => $vnp_Amount,
+    //     "vnp_Command" => "pay",
+    //     "vnp_CreateDate" => date('YmdHis'),
+    //     "vnp_CurrCode" => "VND",
+    //     "vnp_IpAddr" => $vnp_IpAddr,
+    //     "vnp_Locale" => $vnp_Locale,
+    //     "vnp_OrderInfo" => $vnp_OrderInfo,
+    //     "vnp_OrderType" => $vnp_OrderType,
+    //     "vnp_ReturnUrl" => $vnp_Returnurl,
+    //     "vnp_TxnRef" => $vnp_TxnRef,
+    //     "vnp_ExpireDate" => $vnp_ExpireDate,
+    //     "vnp_Bill_Mobile" => $vnp_Bill_Mobile,
+    //     "vnp_Bill_Email" => $vnp_Bill_Email,
+    //     "vnp_Bill_FirstName" => $vnp_Bill_FirstName,
+    //     "vnp_Bill_LastName" => $vnp_Bill_LastName,
+    //     "vnp_Bill_Address" => $vnp_Bill_Address,
+    //     "vnp_Bill_City" => $vnp_Bill_City,
+    //     "vnp_Bill_Country" => $vnp_Bill_Country,
+    //     "vnp_Inv_Phone" => $vnp_Inv_Phone,
+    //     "vnp_Inv_Email" => $vnp_Inv_Email,
+    //     "vnp_Inv_Customer" => $vnp_Inv_Customer,
+    //     "vnp_Inv_Address" => $vnp_Inv_Address,
+    //     "vnp_Inv_Company" => $vnp_Inv_Company,
+    //     "vnp_Inv_Taxcode" => $vnp_Inv_Taxcode,
+    //     "vnp_Inv_Type" => $vnp_Inv_Type
+    // );
+
+    // if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+    //     $inputData['vnp_BankCode'] = $vnp_BankCode;
+    // }
+    // if (isset($vnp_Bill_State) && $vnp_Bill_State != "") {
+    //     $inputData['vnp_Bill_State'] = $vnp_Bill_State;
+    // }
+
+    // //var_dump($inputData);
+    // ksort($inputData);
+    // $query = "";
+    // $i = 0;
+    // $hashdata = "";
+    // foreach ($inputData as $key => $value) {
+    //     if ($i == 1) {
+    //         $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+    //     } else {
+    //         $hashdata .= urlencode($key) . "=" . urlencode($value);
+    //         $i = 1;
+    //     }
+    //     $query .= urlencode($key) . "=" . urlencode($value) . '&';
+    // }
+
+    // $vnp_Url = $vnp_Url . "?" . $query;
+    // if (isset($vnp_HashSecret)) {
+    //     $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret); //
+    //     $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+    // }
+    // $returnData = array(
+    //     'code' => '00'
+    //     ,
+    //     'message' => 'success'
+    //     ,
+    //     'data' => $vnp_Url
+    // );
+    // if (isset($_POST['redirect'])) {
+    //     header('Location: ' . $vnp_Url);
+    //     die();
+    // } else {
+    //     echo json_encode($returnData);
+    // }
+    // // vui lòng tham khảo thêm tại code demo
+    // }
+
     function processOrderPayment($id)
     {
         $orderID = explode('.', $id)[0];
@@ -387,6 +395,7 @@ class OrderController extends Controller
             header('Location: ' . _WEB_ROOT . '/them-don-dat');
         }
     }
+
     function processAllOrderPayment()
     {
         if (isset($_POST['btn-pay-all-order']) && $_POST['bill_id']) {
@@ -417,11 +426,12 @@ class OrderController extends Controller
             header('Location: ' . _WEB_ROOT . '/them-don-dat');
         }
     }
+
     function updateOrder($id)
     {
         $orderID = explode('.', $id)[0];
         $foodID = explode('.', $id)[1];
-        if ((int) $id != 0 and $this->isFieldValid($this->orderdetail->getOrderDetail($orderID, $foodID)['orderID'])) {
+        if ((int)$id != 0 and $this->isFieldValid($this->orderdetail->getOrderDetail($orderID, $foodID)['orderID'])) {
             $this->data['content'] .= 'update_order';
             $unpaidBill = $this->tempinvoice->getTempInvoiceByOrder($orderID, $foodID);
             $this->data['sub_content']['unpaidbill'] = $unpaidBill;
@@ -462,12 +472,18 @@ class OrderController extends Controller
                     }
                     $unpaid_bills_table_before = $this->tempinvoice->getTempInvoiceByTable($table_id_before);
                     $unpaid_bills_table_after = $this->tempinvoice->getTempInvoiceByTable($table_id);
-                    if ($unpaid_bills_table_before == false) {
+                    if (count($unpaid_bills_table_before) === 0) {
                         $this->table->updateTableStatus($table_id_before, 0);
                     }
-                    if ($unpaid_bills_table_after == true) {
+                    if (count($unpaid_bills_table_after) > 0) {
                         $this->table->updateTableStatus($table_id, 1);
                     }
+                    $this->client->send(json_encode([
+                        'old_table' => $this->table->getTableByID($table_id_before)['name'],
+                        'old_table_status' => count($unpaid_bills_table_before) === 0,
+                        'new_table' => $this->table->getTableByID($table_id)['name'],
+                        'new_table_status' => count($unpaid_bills_table_after) === 1,
+                    ]));
                     header('Location: ' . _WEB_ROOT . '/' . 'cap-nhat-don-dat' . '/' . $orderID . '.' . $food_id);
                 } else {
                     header('Location: ' . _WEB_ROOT . '/them-don-dat');

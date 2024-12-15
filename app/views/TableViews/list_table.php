@@ -4,34 +4,34 @@
         <div class="heading"><span>Danh sách bàn</span></div>
         <table class="content" id="table_table">
             <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Tên bàn</th>
-                    <th>Tên khu</th>
-                    <th>Cập nhật</th>
-                    <th>Trạng thái</th>
-                </tr>
+            <tr>
+                <th>STT</th>
+                <th>Tên bàn</th>
+                <th>Tên khu</th>
+                <th>Cập nhật</th>
+                <th>Trạng thái</th>
+            </tr>
             </thead>
             <tbody>
-                <?php
-                foreach ($list_table as $key => $value) {
-                    echo '<tr>';
-                    echo '<td>' . $key + 1 . '</td>';
-                    echo '<td>' . $value['name'] . '</td>';
-                    foreach ($list_area as $key1 => $value1) {
-                        if ($value['areaID'] == $value1['id']) {
-                            echo '<td>' . $value1['name'] . '</td>';
-                            break;
-                        }
+            <?php
+            foreach ($list_table as $key => $value) {
+                echo '<tr>';
+                echo '<td>' . $key + 1 . '</td>';
+                echo '<td>' . $value['name'] . '</td>';
+                foreach ($list_area as $key1 => $value1) {
+                    if ($value['areaID'] == $value1['id']) {
+                        echo '<td>' . $value1['name'] . '</td>';
+                        break;
                     }
-                    if ($value['status'] == 0) {
-                        echo '<td>Trống</td>';
-                    } else {
-                        echo '<td>Đã đặt</td>';
-                    }
-                    echo '<td><a class="update-table-item" table-id="' . $value['id'] . '">Cập nhật</a></td>';
-                    echo '</tr>';
-                } ?>
+                }
+                if ($value['status'] == 0) {
+                    echo '<td>Trống</td>';
+                } else {
+                    echo '<td>Đã đặt</td>';
+                }
+                echo '<td><a class="update-table-item" table-id="' . $value['id'] . '">Cập nhật</a></td>';
+                echo '</tr>';
+            } ?>
             </tbody>
         </table>
     </div>

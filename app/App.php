@@ -1,7 +1,9 @@
 <?php
+
 class App
 {
     private $__controller, $__action, $__params, $__route;
+
     function __construct() // Khởi tạo giá trị mặc định cho controller, action, params
     {
         $this->__controller = 'HomeController';
@@ -10,10 +12,7 @@ class App
         $this->__route = new Route();
         $this->handleURL();
     }
-    function getURL() // Lấy đường dẫn URL
-    {
-        return !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/'; // Nếu đường dẫn tồn tại thì trả về đường dẫn, nếu không thì trả về '/'
-    }
+
     function handleURL() // Xử lý đường dẫn URL
     {
         $url = $this->getURL(); // Lấy đường dẫn URL
@@ -56,7 +55,7 @@ class App
         if (file_exists(_DIR_ROOT . '/app/controllers/' . $path . $this->__controller . '.php')) { // Nếu file controller tồn tại
             require_once 'app/controllers/' . $path . $this->__controller . '.php'; // Require file controller
             $this->__controller = new $this->__controller(); // Khởi tạo lớp của controller
-            if (method_exists($this->__controller, $this->__action)) { // Nếu hàm tồn tại trong lớp 
+            if (method_exists($this->__controller, $this->__action)) { // Nếu hàm tồn tại trong lớp
                 call_user_func_array([$this->__controller, $this->__action], $this->__params); // Gọi hàm
             } else {
                 return $this->loadError(); // Trả về lỗi 404
@@ -65,6 +64,12 @@ class App
             return $this->loadError();
         }
     }
+
+    function getURL() // Lấy đường dẫn URL
+    {
+        return !empty($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/'; // Nếu đường dẫn tồn tại thì trả về đường dẫn, nếu không thì trả về '/'
+    }
+
     function loadError($name = '404')
     {
         if (file_exists(_DIR_ROOT . '/app/errors/' . $name . '.php')) {

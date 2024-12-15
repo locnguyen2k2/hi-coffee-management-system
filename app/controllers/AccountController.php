@@ -5,6 +5,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 class AccountController extends Controller
 {
     public $data = [], $user, $permission;
+
     function __construct()
     {
         if (isset($_SESSION['user_logged'])) {
@@ -15,6 +16,7 @@ class AccountController extends Controller
             $this->permission = $this->model('PermissionModel');
         }
     }
+
     function Signin()
     {
         $this->data['content'] = $this->data['content'] . 'signin';
@@ -42,6 +44,7 @@ class AccountController extends Controller
             $this->render('layouts/user_layout', $this->data);
         }
     }
+
     function Signup()
     {
         $this->data['content'] = $this->data['content'] . 'signup';
@@ -75,7 +78,7 @@ class AccountController extends Controller
                     $this->render('layouts/user_layout', $this->data);
                 }
                 if ($replaceUsername == false && $replacePassword2 == true) {
-                    $this->user->addUser($_POST['fname'], $_POST['lname'], $_POST['username'], $_POST['password'], $_POST['phonenumb'], $_POST['email']);
+                    $this->user->addUser($_POST['fname'], $_POST['lname'], $_POST['username'], password_hash($_POST['password'], PASSWORD_BCRYPT), $_POST['phonenumb'], $_POST['email']);
                     $this->permission->addPermission($this->user->getUserByUsername($_POST['username'])['id'], 2);
                     $this->user->updateUserStatus($this->user->getUserByUsername($_POST['username'])['id'], 1);
                     $this->data['sub_content']['isSucessed'] = 'Đăng ký thành công, vui lòng liên hệ admin để được kích hoạt tài khoản!';
@@ -89,6 +92,7 @@ class AccountController extends Controller
             $this->render('layouts/user_layout', $this->data);
         }
     }
+
     function forgotPassword()
     {
         $this->data['content'] .= 'forgot_password';
@@ -108,7 +112,7 @@ class AccountController extends Controller
                     }
                     return $result;
                 }
-                ;
+
                 if (isset($this->user->getUserByUsername($username)['id'])) {
                     if ($this->user->getUserByUsername($username)['email'] == $email) {
                         $this->user->updateUserPassword($this->user->getUserByUsername($username)['id'], randomPassword());
@@ -156,6 +160,7 @@ class AccountController extends Controller
         }
         $this->render('layouts/user_layout', $this->data);
     }
+
     function updateAccount($userID)
     {
         $this->data['content'] .= 'update_account';
@@ -178,6 +183,7 @@ class AccountController extends Controller
             $this->render('layouts/user_layout', $this->data);
         }
     }
+
     function Signout()
     {
         if (isset($_SESSION['user_logged'])) {

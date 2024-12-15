@@ -28,7 +28,7 @@
                 <div>
                     <span>
                         <input class="name" group-data="<?php echo $role['id'] ?>" type="text"
-                            value="<?php echo $role['name'] ?>" name="name">
+                               value="<?php echo $role['name'] ?>" name="name">
                     </span>
                 </div>
                 <div class="setting">

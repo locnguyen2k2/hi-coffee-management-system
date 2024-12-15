@@ -3,8 +3,7 @@
         echo $isWrong;
     } else if (isset($isNull)) {
         echo $isNull;
-    }
-    ; ?>
+    } ?>
 </div>
 <div class="form-login">
     <div class="content">
@@ -19,7 +18,10 @@
             <h2>Đăng nhập</h2>
         </div>
         <div class="inpUsername"><span><a><i class="fas fa-user"></i> Tài khoản </a></span><input type="textarea"
-                class="inpUsername" id="inpUsername" name="inpUsername" placeholder="Tên tài khoản">
+                                                                                                  class="inpUsername"
+                                                                                                  id="inpUsername"
+                                                                                                  name="inpUsername"
+                                                                                                  placeholder="Tên tài khoản">
         </div>
         <div class="inpPassword">
             <span>

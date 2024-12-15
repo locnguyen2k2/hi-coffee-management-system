@@ -7,6 +7,7 @@ class FoodController extends Controller
     public $type = [];
     public $foodimage = [];
     public $data = [];
+
     function __construct()
     {
         if (!isset($_SESSION['user_logged']['roles']['admin'])) {
@@ -19,6 +20,7 @@ class FoodController extends Controller
             $this->data['content'] = 'FoodViews/';
         }
     }
+
     function addFood()
     {
         $this->data['sub_content']['list_type'] = $this->type->getListType();
@@ -61,6 +63,7 @@ class FoodController extends Controller
             $this->render('layouts/admin_layout', $this->data);
         }
     }
+
     function getListFood()
     {
         $this->data['content'] = $this->data['content'] . 'list_food';
@@ -84,9 +87,10 @@ class FoodController extends Controller
         $this->data['sub_content']['list_food'] = $result;
         $this->render('layouts/admin_layout', $this->data);
     }
+
     function updateFood($foodID = 0)
     {
-        if ((int) $foodID != 0 and $this->isFieldValid($this->food->getFoodByID($foodID)['id'])) {
+        if ((int)$foodID != 0 and $this->isFieldValid($this->food->getFoodByID($foodID)['id'])) {
             $this->data['content'] = $this->data['content'] . 'update_food';
             $this->data['sub_content']['food'] = $this->food->getFoodByID($foodID);
             $this->data['sub_content']['type'] = $this->type->getTypeByID($this->food->getFoodByID($foodID)['typeID']);

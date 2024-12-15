@@ -1,4 +1,5 @@
 <?php
+
 class FoodModel
 {
     // Lấy danh sách món hiện có
@@ -19,6 +20,7 @@ class FoodModel
         $row = pdo_query($sql);
         return $row;
     }
+
     // Lấy danh sách món hiện có theo loại
     function getListFoodByType($type)
     {
@@ -37,12 +39,14 @@ class FoodModel
         $row = pdo_query($sql);
         return $row;
     }
+
     // Thêm một món mới: truyền vào tên, mã loại, giá
     function addFood($name, $type, $price)
     {
         $sql = "INSERT INTO tbl_food(name, typeID, price) VALUES ('$name', $type, $price);";
         pdo_execute($sql);
     }
+
     // Tìm thông tin của một món bằng tên món.
     function getFoodByName($name)
     {
@@ -52,6 +56,7 @@ class FoodModel
         $row = pdo_query_one($sql);
         return $row;
     }
+
     // Tìm thông tin một món bằng ID món
     function getFoodByID($id)
     {
@@ -70,12 +75,14 @@ class FoodModel
         $row = pdo_query_one($sql);
         return $row;
     }
+
     // Cập nhật món: truyền vào id, tên, loại, giá, trạng thái
     function updateFood($id, $name, $type, $price, $status)
     {
         $sql = "UPDATE tbl_food SET name = '$name', typeID = $type, price = $price, status = $status WHERE id = $id;";
         pdo_execute($sql);
     }
+
     // Xóa món: truyền vào id món
     function deleteFood($id)
     {

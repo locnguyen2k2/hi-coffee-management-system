@@ -10,29 +10,30 @@
             <div class="content">
                 <?php
                 foreach ($list_food as $key => $value) { ?>
-                                <a class="item card food-item" data-food="<?php echo $value['name'] ?>">
-                                    <?php
-                                    if (isset($value['imageName'])) { ?>
-                                                    <img src="<?php echo _WEB_ROOT ?>/public/static/imgs/uploadfiles/<?php echo $value['imageName'] ?>"
-                                                        class="card-img-top">
-                                                    <?php
-                                    } else {
-                                        ?>
-                                                    <img src="<?php echo _WEB_ROOT ?>/public/static/imgs/uploadfiles/empty.png" class="card-img-top">
-                                                    <?php
-                                    }
-                                    ?>
-                                    <p class="card-body d-flex flex-column p-0">
+                    <a class="item card food-item" data-food="<?php echo $value['name'] ?>">
+                        <?php
+                        if (isset($value['imageName'])) { ?>
+                            <img src="<?php echo _WEB_ROOT ?>/public/static/imgs/uploadfiles/<?php echo $value['imageName'] ?>"
+                                 class="card-img-top">
+                            <?php
+                        } else {
+                            ?>
+                            <img src="<?php echo _WEB_ROOT ?>/public/static/imgs/uploadfiles/empty.png"
+                                 class="card-img-top">
+                            <?php
+                        }
+                        ?>
+                        <p class="card-body d-flex flex-column p-0">
                                         <span>
                                             <?php echo $value['name'] ?>
                                         </span>
-                                        <span>
+                            <span>
                                             <?php echo number_format($value['price'], 0, ',', '.') . ' đ' ?>
                                         </span>
 
-                                    </p>
-                                </a>
-                                <?php
+                        </p>
+                    </a>
+                    <?php
                 } ?>
             </div>
         </div>
@@ -43,14 +44,14 @@
             <div class="content">
                 <?php
                 foreach ($list_table as $key => $value) { ?>
-                                <a class="item table-item" data-table="<?php echo $value['name'] ?>">
-                                    <?php
-                                    echo $value['name'];
-                                    if ($value['status'] == 1) {
-                                        echo '(Đang dùng)';
-                                    } ?>
-                                </a>
-                                <?php
+                    <a class="item table-item" data-table="<?php echo $value['name'] ?>">
+                        <?php
+                        echo $value['name'];
+                        if ($value['status'] == 1) {
+                            echo '(Đang dùng)';
+                        } ?>
+                    </a>
+                    <?php
                 }
                 ?>
             </div>
@@ -84,10 +85,10 @@
                         <?php
                         foreach ($list_table as $key1 => $value1) {
                             ?>
-                                        <option value="<?php echo $value1['name'] ?>">
-                                            <?php echo $value1['status'] == 0 ? $value1['name'] : $value1['name'] . ' (đang dùng)' ?>
-                                        </option>
-                                        <?php
+                            <option value="<?php echo $value1['name'] ?>">
+                                <?php echo $value1['status'] == 0 ? $value1['name'] : $value1['name'] . ' (đang dùng)' ?>
+                            </option>
+                            <?php
                         }
                         ?>
                     </select>
@@ -124,6 +125,90 @@
     const tableSelectOption = tableSelect.find('option');
     const tableItem = leftContent.find('.table-item');
     const billItem = $('.bill-item');
+    const wsClient = wsConnection();
+
+    wsClient.conn.onmessage = (event) => {
+        const tableNameItem = tableItem.filter('.active').attr('data-table');
+        const newestTableData = JSON.parse(event.data);
+
+        if (newestTableData.old_table_status === true) {
+            tableSelect.find(`option[value="${newestTableData.old_table}"]`).text(`${newestTableData.old_table}`);
+            leftContent.find(`.table-item[data-table="${newestTableData.old_table}"]`).text(`${newestTableData.old_table}`);
+        }
+        if (newestTableData.new_table_status === true) {
+            tableSelect.find(`option[value="${newestTableData.new_table}"]`).text(`${newestTableData.new_table}(Đang dùng)`);
+            leftContent.find(`.table-item[data-table="${newestTableData.new_table}"]`).text(`${newestTableData.new_table}(Đang dùng)`);
+        }
+        if (tableNameItem === newestTableData.old_table) {
+            $.ajax({
+                url: "<?php echo _WEB_ROOT ?>/them-don-dat",
+                type: "POST",
+                data: {
+                    table_name: tableNameItem
+                },
+                success: (response) => {
+                    let data;
+                    if ($(response)[2] === undefined) {
+                        data = "Bàn này đang trống!";
+                    } else {
+                        data = $(response)[2];
+                    }
+                    $(".bill-item").html(data);
+                    if ($('.bill-item').find('.bill_id') != '') {
+                        let billID = $('.bill-item').find('.bill_id').first().text();
+                        $.ajax({
+                            url: '<?php echo _WEB_ROOT ?>/chi-tiet-hoa-don/' + billID,
+                            type: 'POST',
+                            success: (response) => {
+                                $('.payment-content').remove();
+                                $('.right-content').append('<div class="payment-content"></div>')
+                                $('.payment-content').append('<div class="content d-block"></div>')
+                                $('.payment-content .content').append('<div class="info"></div>')
+                                $('.payment-content .info').html($(response).find('.info').html());
+                            }
+                        })
+                    } else {
+                        $('.payment-content').remove();
+                    }
+                }
+            });
+        }
+
+        if (tableNameItem === newestTableData.new_table) {
+            $.ajax({
+                url: "<?php echo _WEB_ROOT ?>/them-don-dat",
+                type: "POST",
+                data: {
+                    table_name: tableNameItem
+                },
+                success: (response) => {
+                    let data;
+                    if ($(response)[2] === undefined) {
+                        data = "Bàn này đang trống!";
+                    } else {
+                        data = $(response)[2];
+                    }
+                    $(".bill-item").html(data);
+                    if ($('.bill-item').find('.bill_id') != '') {
+                        let billID = $('.bill-item').find('.bill_id').first().text();
+                        $.ajax({
+                            url: '<?php echo _WEB_ROOT ?>/chi-tiet-hoa-don/' + billID,
+                            type: 'POST',
+                            success: (response) => {
+                                $('.payment-content').remove();
+                                $('.right-content').append('<div class="payment-content"></div>')
+                                $('.payment-content').append('<div class="content d-block"></div>')
+                                $('.payment-content .content').append('<div class="info"></div>')
+                                $('.payment-content .info').html($(response).find('.info').html());
+                            }
+                        })
+                    } else {
+                        $('.payment-content').remove();
+                    }
+                }
+            });
+        }
+    }
 
     $('.center-content .food-quantity-item .food').on('click', 'select', function () {
         const foodNameSelector = $(this).val();
@@ -172,7 +257,7 @@
         }
     })
 
-    $('.left-content .food').on('click', '.food-item', function () {
+    $('.left-content .food').on('click', '.food-item', async function () {
         const foodNameItem = $(this).attr('data-food');
         if (!$(this).hasClass('active')) {
             // foodItem.removeClass('active');
@@ -225,7 +310,6 @@
                                 $('.payment-content').append('<div class="content d-block"></div>')
                                 $('.payment-content .content').append('<div class="info"></div>')
                                 $('.payment-content .info').html($(response).find('.info').html());
-                                // console.log(billID);
                             }
                         })
                     } else {

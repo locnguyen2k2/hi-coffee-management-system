@@ -1,4 +1,5 @@
 <?php
+
 class TypeModel
 {
 
@@ -11,6 +12,7 @@ class TypeModel
         $row = pdo_query($sql);
         return $row;
     }
+
     // Tìm thông tin loại theo tên
     function getTypeByName($name)
     {
@@ -20,7 +22,8 @@ class TypeModel
         $row = pdo_query_one($sql);
         return $row;
     }
-    // Tìm thông tin loại theo mã 
+
+    // Tìm thông tin loại theo mã
     function getTypeByID($id)
     {
         $sql = "SELECT tbl_type.id, tbl_type.name,
@@ -29,12 +32,14 @@ class TypeModel
         $row = pdo_query_one($sql);
         return $row;
     }
+
     // Thêm loại mới
     function addType($name)
     {
         $sql = "INSERT INTO tbl_type(name) VALUES ('$name');";
         pdo_execute($sql);
     }
+
     // Cập nhật tên loại
     function updateType($id, $name, $status)
     {

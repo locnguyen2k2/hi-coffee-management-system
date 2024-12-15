@@ -1,8 +1,10 @@
-<?php 
+<?php
+
 class UserController extends Controller
 {
     public $user = [], $permission = [];
     public $data = [];
+
     function __construct()
     {
         if (!isset($_SESSION['user_logged']['roles']['admin'])) {
@@ -13,6 +15,7 @@ class UserController extends Controller
             $this->data['content'] = 'UserViews/';
         }
     }
+
     function addUser()
     {
         if (isset($_SESSION['user_logged']['roles']['admin'])) {
@@ -26,7 +29,7 @@ class UserController extends Controller
                     $this->isFieldValid($_POST['lname']) &&
                     $this->isFieldValid($_POST['username']) &&
                     $this->isFieldValid($_POST['password']) &&
-                    $this->isFieldValid($_POST['password2']) &&
+//                    $this->isFieldValid($_POST['password2']) &&
                     $this->isFieldValid($_POST['phonenumb']) &&
                     $this->isFieldValid($_POST['email'])
                 ) {
@@ -38,12 +41,14 @@ class UserController extends Controller
                     if ($replaceUsername == true) {
                         $this->data['sub_content']['isReplaced'] = '<div class="alert alert-danger" role="alert">Tên tài khoản đã tồn tại!</div>';
                         $this->render('layouts/admin_layout', $this->data);
-                    } else if ($_POST['password'] != $_POST['password2']) {
-                        $replacePassword2 = false;
-                        $this->data['sub_content']['isReplaced'] = '<div class="alert alert-danger" role="alert">Mật khẩu không khớp!</div>';
-                        $this->render('layouts/admin_layout', $this->data);
-                    } else {
-                        $this->user->addUser($_POST['fname'], $_POST['lname'], $_POST['username'], $_POST['password'], $_POST['phonenumb'], $_POST['email']);
+                    }
+//                    else if ($_POST['password'] != $_POST['password2']) {
+//                        $replacePassword2 = false;
+//                        $this->data['sub_content']['isReplaced'] = '<div class="alert alert-danger" role="alert">Mật khẩu không khớp!</div>';
+//                        $this->render('layouts/admin_layout', $this->data);
+//                    }
+                    else {
+                        $this->user->addUser($_POST['fname'], $_POST['lname'], $_POST['username'], password_hash($_POST['password'], PASSWORD_BCRYPT), $_POST['phonenumb'], $_POST['email']);
                         $this->permission->addPermission($this->user->getUserByUsername($_POST['username'])['id'], 1);
                         $this->data['sub_content']['isSucessed'] = '<div class="alert alert-success" role="alert">Thêm tài khoản thành công!</div>';
                         $this->render('layouts/admin_layout', $this->data);
@@ -57,15 +62,17 @@ class UserController extends Controller
             }
         }
     }
+
     function getListUser()
     {
         $this->data['content'] = $this->data['content'] . 'list_user';
         $this->data['sub_content']['list_user'] = $this->user->getListUser();
         $this->render('layouts/admin_layout', $this->data);
     }
+
     function deleteUser($userID)
     {
-        if ((int) $userID != 0 and $this->isFieldValid($this->user->getUserByID($userID)['id'])) {
+        if ((int)$userID != 0 and $this->isFieldValid($this->user->getUserByID($userID)['id'])) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn-delete-user'])) {
                 $this->permission->deletePermission($userID);
                 if ($this->user->getUserByID($userID)['user_username'] == $_SESSION['user_logged']['username']) {
@@ -75,9 +82,10 @@ class UserController extends Controller
             header("Location: " . _WEB_ROOT . '/danh-sach-nguoi-dung');
         }
     }
+
     function updateUser($userID)
     {
-        if ((int) $userID != 0 and $this->isFieldValid($this->user->getUserByID($userID)['id'])) {
+        if ((int)$userID != 0 and $this->isFieldValid($this->user->getUserByID($userID)['id'])) {
             $this->data['content'] = $this->data['content'] . 'update_user';
             $this->data['sub_content']['user'] = $this->user->getUserByID($userID);
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_user_btn'])) {

@@ -28,7 +28,7 @@
                 <div>
                     <span>
                         <input class="name" type="text" value="<?php echo $table['name'] ?>" name="name"
-                            data-table="<?php echo $table['id'] ?>">
+                               data-table="<?php echo $table['id'] ?>">
                     </span>
                 </div>
                 <div>
@@ -48,7 +48,7 @@
                 <div>
                     <span>
                         <input class="status" type="number" min="0" max="1" value="<?php echo $table['status'] ?>"
-                            name="status">
+                               name="status">
                     </span>
                 </div>
                 <div class="setting">

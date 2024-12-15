@@ -3,6 +3,7 @@
 class HomeController extends Controller
 {
     public $data = [];
+
     function index()
     {
         if (!isset($_SESSION['user_logged'])) {

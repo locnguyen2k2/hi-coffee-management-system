@@ -1,8 +1,10 @@
 <?php
+
 class OrderController extends Controller
 {
     public $food = [], $table = [], $type = [], $invoice = [], $tempinvoice = [], $order = [], $area, $orderdetail = [];
     public $data = [];
+
     function __construct()
     {
         $this->food = $this->model('FoodModel');
@@ -14,6 +16,7 @@ class OrderController extends Controller
         $this->tempinvoice = $this->model('TempInvoiceModel');
         $this->orderdetail = $this->model('OrderDetailModel');
     }
+
     function addOrder()
     {
         $this->data['sub_content']['list_food'] = [];
@@ -187,7 +190,6 @@ class OrderController extends Controller
                             }
                             array_push($this->data['list_order'], $value);
                         }
-                        ;
                     } else {
                         $this->data['error'] = 1;
                         $this->data['message'] = 'Chưa có đơn đặt';
@@ -205,29 +207,14 @@ class OrderController extends Controller
             echo json_encode($this->data);
         }
     }
-    function getOrderDetail($id)
-    {
-        $orderID = explode('.', $id)[0];
-        $foodID = explode('.', $id)[1];
-        if ((int) $orderID != 0 and $this->isFieldValid($this->orderdetail->getOrderDetail($orderID, $foodID)['orderID'])) { // Kiểm tra xem có tồn tại đơn đặt và món đó không
-            $orderdetail = $this->orderdetail->getOrderDetail($orderID, $foodID);
-            $this->data['sub_content']['table'] = $this->table->getTableByID($orderdetail['tableID']);
-            $this->data['sub_content']['food'] = $this->food->getFoodByID($orderdetail['foodID']);
-            $this->data['sub_content']['type'] = $this->type->getTypeByID($orderdetail['typeID']);
-            $this->data['sub_content']['order_detail'] = $orderdetail;
-            $this->data['content'] .= 'order_detail';
-        } else {
-            header('Location: ' . _WEB_ROOT . '/them-don-dat');
-        }
-        $this->render('layouts/staff_layout', $this->data);
-    }
+
     function deleteOrder()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
             $id = json_decode($_POST['id']);
             $orderID = explode('.', $id)[0];
             $foodID = explode('.', $id)[1];
-            if ((int) $orderID != 0 and $this->isFieldValid($this->orderdetail->getOrderDetail($orderID, $foodID)['orderID'])) { // Kiểm tra xem có tồn tại đơn đặt và món đó không
+            if ((int)$orderID != 0 and $this->isFieldValid($this->orderdetail->getOrderDetail($orderID, $foodID)['orderID'])) { // Kiểm tra xem có tồn tại đơn đặt và món đó không
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if ($this->orderdetail->getOrderDetail($orderID, $foodID) == true) {
                         $table_id = $this->orderdetail->getOrderDetail($orderID, $foodID)['tableID'];
@@ -255,6 +242,23 @@ class OrderController extends Controller
             $this->data['message'] = 'Bad request!';
         }
         echo json_encode($this->data);
+    }
+
+    function getOrderDetail($id)
+    {
+        $orderID = explode('.', $id)[0];
+        $foodID = explode('.', $id)[1];
+        if ((int)$orderID != 0 and $this->isFieldValid($this->orderdetail->getOrderDetail($orderID, $foodID)['orderID'])) { // Kiểm tra xem có tồn tại đơn đặt và món đó không
+            $orderdetail = $this->orderdetail->getOrderDetail($orderID, $foodID);
+            $this->data['sub_content']['table'] = $this->table->getTableByID($orderdetail['tableID']);
+            $this->data['sub_content']['food'] = $this->food->getFoodByID($orderdetail['foodID']);
+            $this->data['sub_content']['type'] = $this->type->getTypeByID($orderdetail['typeID']);
+            $this->data['sub_content']['order_detail'] = $orderdetail;
+            $this->data['content'] .= 'order_detail';
+        } else {
+            header('Location: ' . _WEB_ROOT . '/them-don-dat');
+        }
+        $this->render('layouts/staff_layout', $this->data);
     }
 
     // function thanhtoan_vnpay()
@@ -366,6 +370,7 @@ class OrderController extends Controller
     //     }
     //     // vui lòng tham khảo thêm tại code demo
     // }
+
     function processOrderPayment()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
@@ -399,6 +404,7 @@ class OrderController extends Controller
         }
         echo json_encode($this->data);
     }
+
     function processAllOrderPayment()
     {
         if (isset($_POST['btn-pay-all-order']) && $_POST['bill_id']) {
@@ -429,13 +435,14 @@ class OrderController extends Controller
             header('Location: ' . _WEB_ROOT . '/them-don-dat');
         }
     }
+
     function updateOrder()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
             $id = json_decode($_POST['id']);
             $orderID = explode('.', $id)[0];
             $foodID = explode('.', $id)[1];
-            if (isset($_POST['food_name']) && isset($_POST['table_name']) && isset($_POST['quantity']) && (int) $id != 0 and $this->isFieldValid($this->orderdetail->getOrderDetail($orderID, $foodID)['orderID'])) {
+            if (isset($_POST['food_name']) && isset($_POST['table_name']) && isset($_POST['quantity']) && (int)$id != 0 and $this->isFieldValid($this->orderdetail->getOrderDetail($orderID, $foodID)['orderID'])) {
                 if (isset($_POST['btn-update'])) {
                     if ($this->orderdetail->getOrderDetail($orderID, $foodID) == true) {
                         $food_id = $this->food->getFoodByName($_POST['food_name'])['id'];

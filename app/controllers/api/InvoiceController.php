@@ -1,8 +1,10 @@
 <?php
+
 class InvoiceController extends Controller
 {
     public $data = [], $invoice = [], $tempinvoice = [], $food = [], $table = [], $type = [], $area = [];
     public $order = [], $orderdetail = [];
+
     function __construct()
     {
         $this->food = $this->model('FoodModel');
@@ -14,6 +16,7 @@ class InvoiceController extends Controller
         $this->order = $this->model('OrderModel');
         $this->orderdetail = $this->model('OrderDetailModel');
     }
+
     function getInvoiceDetail()
     {
         if (isset($_POST['invoiceID']) && $this->isFieldValid($_POST['invoiceID'])) {
@@ -64,6 +67,7 @@ class InvoiceController extends Controller
         }
         echo json_encode($this->data);
     }
+
     function getListInvoiceByTable()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['tableName']) && $this->table->getTableByName($_POST['tableName'])) {

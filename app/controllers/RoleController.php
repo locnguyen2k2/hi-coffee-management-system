@@ -1,8 +1,10 @@
-<?php 
+<?php
+
 class RoleController extends Controller
 {
     public $role = [];
     public $data = [];
+
     function __construct()
     {
         if (!isset($_SESSION['user_logged']['roles']['admin'])) {
@@ -12,6 +14,7 @@ class RoleController extends Controller
             $this->data['content'] = 'RoleViews/';
         }
     }
+
     function addRole()
     {
         $this->data['content'] = $this->data['content'] . 'add_role';
@@ -41,15 +44,17 @@ class RoleController extends Controller
             $this->render('layouts/admin_layout', $this->data);
         }
     }
+
     function getListRole()
     {
         $this->data['content'] = $this->data['content'] . 'list_role';
         $this->data['sub_content']['list_role'] = $this->role->getListRole();
         $this->render('layouts/admin_layout', $this->data);
     }
+
     function updateRole($groupID)
     {
-        if ((int) $groupID != 0 and $this->isFieldValid($this->role->getRoleByID($groupID)['id'])) {
+        if ((int)$groupID != 0 and $this->isFieldValid($this->role->getRoleByID($groupID)['id'])) {
             $this->data['content'] = $this->data['content'] . 'update_role';
             $this->data['sub_content']['role'] = $this->role->getRoleByID($groupID);
             $this->data['sub_content']['list_role'] = $this->role->getListRole();

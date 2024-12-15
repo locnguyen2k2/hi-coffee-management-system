@@ -1,4 +1,5 @@
 <?php
+
 class TempInvoiceModel
 {
 
@@ -12,6 +13,7 @@ class TempInvoiceModel
         $row = pdo_query($sql);
         return $row;
     }
+
     // Lấy ds thông tin của hóa đơn chưa thanh toán
     function getUnpaidAggregatedInvoiceList()
     {
@@ -19,6 +21,7 @@ class TempInvoiceModel
         $row = pdo_query($sql);
         return $row;
     }
+
     function getTempInvoiceByID($billID)
     {
         $sql = "SELECT tbl_temp_invoice.id, tbl_temp_invoice.orderID, tbl_temp_invoice.foodID,
@@ -29,18 +32,21 @@ class TempInvoiceModel
         $row = pdo_query($sql);
         return $row;
     }
+
     // Thêm hóa đơn chưa thanh toán
     function addTempInvoice($billID, $tableID, $orderID, $foodID, $typeID, $price, $quantity, $total, $username)
     {
         $sql = "INSERT INTO tbl_temp_invoice(id, tableID, orderID, foodID, typeID, price, quantity, total, username) values ($billID, $tableID, $orderID, $foodID, $typeID, $price, $quantity, $total, '$username');";
         pdo_execute($sql);
     }
+
     // Cập nhật hóa đơn chưa thanah toán
     function updateTempInvoice($unpaidBillID, $tableID, $orderID, $foodOldID, $foodID, $typeID, $price, $quantity, $total, $username)
     {
         $sql = "UPDATE tbl_temp_invoice SET id = $unpaidBillID, tableID = $tableID, foodID = $foodID, typeID = $typeID, price = $price, quantity = $quantity, total = $total, username = '$username' WHERE orderID = $orderID AND foodID = $foodOldID;";
         pdo_execute($sql);
     }
+
     // Cập nhật hóa đơn chưa thanha toán băng mã đơn đjăt
     function getTempInvoiceByOrder($orderID, $foodID)
     {
@@ -52,6 +58,7 @@ class TempInvoiceModel
         $row = pdo_query($sql);
         return $row;
     }
+
     function getTempInvoiceByTable($tableID)
     {
         $sql = "SELECT tbl_temp_invoice.id, tbl_temp_invoice.orderID, tbl_temp_invoice.foodID,

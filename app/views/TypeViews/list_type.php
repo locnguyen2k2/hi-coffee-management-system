@@ -4,23 +4,23 @@
         <div class="heading"><span>Danh sách loại</span></div>
         <table class="content" id="type_table">
             <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Tên loại</th>
-                    <th>Trạng thái</th>
-                    <th>Cập nhật</th>
-                </tr>
+            <tr>
+                <th>STT</th>
+                <th>Tên loại</th>
+                <th>Trạng thái</th>
+                <th>Cập nhật</th>
+            </tr>
             </thead>
             <tbody>
-                <?php
-                foreach ($list_type as $key => $value) {
-                    echo '<tr>';
-                    echo '<td>' . $key + 1 . '</td>';
-                    echo '<td>' . $value[1] . '</td>';
-                    echo '<td>' . $value[2] . '</td>';
-                    echo '<td><a class="update-type-item" type-id="' . $value[0] . '">Cập nhật</a></td>';
-                    echo '</tr>';
-                } ?>
+            <?php
+            foreach ($list_type as $key => $value) {
+                echo '<tr>';
+                echo '<td>' . $key + 1 . '</td>';
+                echo '<td>' . $value[1] . '</td>';
+                echo '<td>' . $value[2] . '</td>';
+                echo '<td><a class="update-type-item" type-id="' . $value[0] . '">Cập nhật</a></td>';
+                echo '</tr>';
+            } ?>
             </tbody>
         </table>
     </div>

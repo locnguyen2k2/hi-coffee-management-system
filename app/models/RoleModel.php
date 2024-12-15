@@ -1,4 +1,5 @@
 <?php
+
 class RoleModel
 {
     // Lấy danh sách các nhóm người dùng
@@ -8,12 +9,14 @@ class RoleModel
         $row = pdo_query($sql);
         return $row;
     }
+
     // Thêm nhóm người dùng mới: truyền vào tên
     function addRole($name)
     {
         $sql = "INSERT INTO tbl_role(name) values('$name');";
         pdo_execute($sql);
     }
+
     // Lấy tên của nhóm người dùng bằng ID
     function getRoleByID($id)
     {
@@ -21,6 +24,7 @@ class RoleModel
         $row = pdo_query_one($sql);
         return $row;
     }
+
     // Cập nhật tên nhóm người dùng: truyền vào ID và tên mới
     function updateRole($id, $name)
     {

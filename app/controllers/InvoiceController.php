@@ -1,9 +1,11 @@
 <?php
-
+use HiCoffeeOrder\core\HiCoffeeSocket;
+use WebSocket\Client;
 class InvoiceController extends Controller
 {
     public $data = [], $invoice = [], $tempinvoice = [], $food = [], $table = [], $type = [], $area = [];
     public $order = [], $orderdetail = [];
+    public $client;
     function __construct()
     {
         if (
@@ -21,20 +23,24 @@ class InvoiceController extends Controller
             $this->order = $this->model('OrderModel');
             $this->orderdetail = $this->model('OrderDetailModel');
             $this->data['content'] = 'BillViews/';
+            $this->client = new Client('ws://localhost:8080');
         }
     }
-    function getInvoiceDetail($billID)
+
+    function getInvoiceDetail($billID = -1)
     {
         $this->data['sub_content']['list_order'] = [];
-        if (isset($this->invoice->getInvoiceByID($billID)[0])) { //Nếu hóa đơn tồn tại và có đơn đặt đã thanh toán
-            foreach ($this->invoice->getInvoiceByID($billID) as $key1 => $value) { //Vòng lập để lấy ra tất đơn đặt đã thanh toán của hóa đơn đó
-                array_push($this->data['sub_content']['list_order'], $value); //Gán vào biết $data['sub_content]['orders']
+        if ($billID > -1) {
+            if (isset($this->invoice->getInvoiceByID($billID)[0])) { //Nếu hóa đơn tồn tại và có đơn đặt đã thanh toán
+                foreach ($this->invoice->getInvoiceByID($billID) as $key1 => $value) { //Vòng lập để lấy ra tất đơn đặt đã thanh toán của hóa đơn đó
+                    array_push($this->data['sub_content']['list_order'], $value); //Gán vào biết $data['sub_content]['orders']
+                }
             }
-        }
-        // Tương tự với đơn đặt chưa thanh toán có trong cùng hóa đơn đó
-        if (isset($this->tempinvoice->getTempInvoiceByID($billID)[0])) {
-            foreach ($this->tempinvoice->getTempInvoiceByID($billID) as $key2 => $value) {
-                array_push($this->data['sub_content']['list_order'], $value);
+            // Tương tự với đơn đặt chưa thanh toán có trong cùng hóa đơn đó
+            if (isset($this->tempinvoice->getTempInvoiceByID($billID)[0])) {
+                foreach ($this->tempinvoice->getTempInvoiceByID($billID) as $key2 => $value) {
+                    array_push($this->data['sub_content']['list_order'], $value);
+                }
             }
         }
         if (count($this->data['sub_content']['list_order']) > 0) {
@@ -67,6 +73,7 @@ class InvoiceController extends Controller
             header('Location: ' . _WEB_ROOT . '/trang-chu');
         }
     }
+
     function getListInvoice()
     {
         $this->data['content'] .= 'list_bill';

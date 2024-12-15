@@ -27,9 +27,9 @@
             <div class="list-item">
                 <div class="items" data-type="<?php echo $type['id'] ?>">
                     <div><span><input class="name" type="text" value="<?php echo $type['name'] ?>"
-                                name="name"></span></div>
+                                      name="name"></span></div>
                     <div><span><input class="status" type="number" min="0" max="1"
-                                value="<?php echo $type['status'] ?>" name="status"></span></div>
+                                      value="<?php echo $type['status'] ?>" name="status"></span></div>
                     <div class="setting">
                         <input class="update-type-btn" type="submit" name="update-type-btn" value="Cập nhật">
                     </div>

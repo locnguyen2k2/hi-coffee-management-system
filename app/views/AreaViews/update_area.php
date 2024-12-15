@@ -33,7 +33,7 @@
             </div>
             <div class="items">
                 <div><span><input class="name" data-area="<?php echo $area['id'] ?>" type="text"
-                            value="<?php echo $area['name'] ?>" name="name"></span>
+                                  value="<?php echo $area['name'] ?>" name="name"></span>
                 </div>
                 <div class="setting">
                     <input type="submit" class="update-area-btn" name="update-area-btn" value="Cập nhật">

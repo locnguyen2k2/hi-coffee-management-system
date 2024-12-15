@@ -1,4 +1,5 @@
 <?php
+
 class StatisticModel
 {
     function getDailyInvoiceStatistic($date, $choice)
@@ -24,6 +25,7 @@ class StatisticModel
         $row = pdo_query($sql);
         return $row;
     }
+
     function getInvoiceStatisticsInRange($from, $to, $choice)
     {
         $from = date('Y-m-d', strtotime($from));

@@ -1,4 +1,5 @@
 <?php
+
 class AreaModel
 {
     // Lấy danh sách tất cả các khu.
@@ -8,12 +9,14 @@ class AreaModel
         $row = pdo_query($sql);
         return $row;
     }
+
     // Thêm mới một khu.
     function addArea($name)
     {
         $sql = "INSERT INTO tbl_area(name) values('$name');";
         pdo_execute($sql);
     }
+
     // Lấy thông tin của khu dựa theo tên khu.
     function getAreaByName($name)
     {
@@ -21,6 +24,7 @@ class AreaModel
         $row = pdo_query_one($sql);
         return $row;
     }
+
     // Lây thông tin của khu dựa trên id của khu.
     function getAreaByID($id)
     {
@@ -28,6 +32,7 @@ class AreaModel
         $row = pdo_query_one($sql);
         return $row;
     }
+
     // Cập nhật tên khu: truyền vào id và tên mới.
     function updateArea($id, $name)
     {

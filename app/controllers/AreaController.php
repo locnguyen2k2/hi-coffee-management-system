@@ -4,6 +4,7 @@ class AreaController extends Controller
 {
     public $area = [];
     public $data = [];
+
     function __construct()
     {
         if (!isset($_SESSION['user_logged']['roles']['admin'])) {
@@ -13,6 +14,7 @@ class AreaController extends Controller
             $this->data['content'] = 'AreaViews/';
         }
     }
+
     function addArea()
     {
         $this->data['content'] = $this->data['content'] . 'add_area';
@@ -42,15 +44,17 @@ class AreaController extends Controller
         }
 
     }
+
     function getListArea()
     {
         $this->data['content'] = $this->data['content'] . 'list_area';
         $this->data['sub_content']['list_area'] = $this->area->getListArea();
         $this->render('layouts/admin_layout', $this->data);
     }
+
     function updateArea($areaID)
     {
-        if ((int) $areaID != 0 and $this->isFieldValid($this->area->getAreaByID($areaID)['id'])) {
+        if ((int)$areaID != 0 and $this->isFieldValid($this->area->getAreaByID($areaID)['id'])) {
             $this->data['content'] = $this->data['content'] . 'update_area';
             $this->data['sub_content']['area'] = $this->area->getAreaByID($areaID);
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_area_btn'])) {

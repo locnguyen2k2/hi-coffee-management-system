@@ -1,4 +1,5 @@
 <?php
+
 class OrderModel
 {
     // Lấy danh sách đơn đặt
@@ -8,18 +9,21 @@ class OrderModel
         $row = pdo_query($sql);
         return $row;
     }
+
     // Cập nhật đơn đặt: Mã đơn đặt, mã món, số lượng
     function updateOrder($orderID, $foodOldID, $foodID, $quantity)
     {
         $sql = "UPDATE tbl_order SET foodID = $foodID, quantity = $quantity WHERE id = $orderID AND foodID = $foodOldID;";
         pdo_execute($sql);
     }
+
     // Thêm đơn đặt mới: mã đơn đặt, mã món, số lượng
     function addOrder($orderID, $foodID, $quantity)
     {
         $sql = "INSERT INTO tbl_order(id, foodID, quantity) values ($orderID, $foodID, $quantity);";
         pdo_execute($sql);
     }
+
     // Xóa đơn đặt (đơn đặt chưa thanh toán)
     function deleteOrder($id, $foodID)
     {

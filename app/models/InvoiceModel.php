@@ -1,4 +1,5 @@
 <?php
+
 class InvoiceModel
 {
     // Lấy ds hóa đơn đã thanh toán
@@ -12,6 +13,7 @@ class InvoiceModel
         $row = pdo_query($sql);
         return $row;
     }
+
     // Lấy thông tin về: mã hóa đơn, mã bàn, số đơn, số lượng, tổng tiền, ngày thuộc hóa đơn đã thanh toán
     function getAggregatedInvoiceList()
     {
@@ -19,6 +21,7 @@ class InvoiceModel
         $row = pdo_query($sql);
         return $row;
     }
+
     function getInvoiceByID($billID)
     {
         $sql = "SELECT tbl_invoice.id, tbl_invoice.orderID, tbl_invoice.foodID,
@@ -29,6 +32,7 @@ class InvoiceModel
         $row = pdo_query($sql);
         return $row;
     }
+
     // Lấy danh sách hóa đơn đã thanh toán theo mã bàn
     function getInvoiceByTable($tableID)
     {
@@ -42,6 +46,7 @@ class InvoiceModel
         $row = pdo_query($sql);
         return $row;
     }
+
     // Lấy ds hóa đơn đã thanh toán theo mã đơn đặt
     function getInvoiceByOrder($orderID)
     {
@@ -53,18 +58,21 @@ class InvoiceModel
         $row = pdo_query($sql);
         return $row;
     }
+
     // Thêm hóa đơn đã thanh toán (mã hóa đơn, mã bàn, mã đơn đjăt, mã món, mã loại, giá, số lượng, tổng)
     function addInvoice($billID, $tableID, $orderID, $foodID, $typeID, $price, $quantity, $total, $username)
     {
         $sql = "INSERT INTO tbl_invoice(id, tableID, orderID, foodID, typeID, price, quantity, total, username) values ($billID, $tableID, $orderID, $foodID, $typeID, $price, $quantity, $total, '$username');";
         pdo_execute($sql);
     }
+
     // Cập nhật trạng thóa hóa đơn đã thanh toán dựa theo mã đơn đạt
     function updateInvoiceStatusByOrder($orderID, $foodID, $status)
     {
         $sql = "UPDATE tbl_invoice SET tbl_invoice.status = $status WHERE tbl_invoice.orderID = $orderID AND tbl_invoice.foodID = $foodID;";
         pdo_execute($sql);
     }
+
     // Xóa hóa đơn tạm đã thanh toán bằng mã đơn đặt
     function deleteTempInvoice($orderID, $foodID)
     {

@@ -1,9 +1,11 @@
-<?php 
+<?php
+
 class TableController extends Controller
 {
     public $area = [];
     public $table = [];
     public $data = [];
+
     function __construct()
     {
         if (!isset($_SESSION['user_logged']['roles']['admin'])) {
@@ -14,6 +16,7 @@ class TableController extends Controller
             $this->data['content'] = 'TableViews/';
         }
     }
+
     function addTable()
     {
         $this->data['content'] = $this->data['content'] . 'add_table';
@@ -56,6 +59,7 @@ class TableController extends Controller
             $this->render('layouts/admin_layout', $this->data);
         }
     }
+
     function getListTable()
     {
         $this->data['content'] = $this->data['content'] . 'list_table';
@@ -63,9 +67,10 @@ class TableController extends Controller
         $this->data['sub_content']['list_area'] = $this->area->getListArea();
         $this->render('layouts/admin_layout', $this->data);
     }
+
     function updateTable($tableID)
     {
-        if ((int) $tableID != 0 and $this->isFieldValid($this->table->getTableByID($tableID)['id'])) { // kiểm tra xem id bàn có tồn tại không
+        if ((int)$tableID != 0 and $this->isFieldValid($this->table->getTableByID($tableID)['id'])) { // kiểm tra xem id bàn có tồn tại không
             $this->data['content'] = $this->data['content'] . 'update_table';
             $this->data['sub_content']['table'] = $this->table->getTableByID($tableID);
             $this->data['sub_content']['area'] = $this->area->getAreaByID($this->table->getTableByID($tableID)['areaID']);

@@ -6,7 +6,7 @@
     <!-- Link to bootstrap 5 -->
     <link rel="stylesheet" href="<?php echo _WEB_ROOT ?>/bootstrap/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <!-- Link to data tables -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css"/>
     <!-- link to font awesome -->
     <link rel="stylesheet" href="<?php echo _WEB_ROOT ?>/public/static/icons/css/all.css">
     <!-- Link to css -->
@@ -18,16 +18,16 @@
 </head>
 
 <body class="<?php echo isset($_SESSION['user_logged']['roles']) ? '' : 'signin' ?>">
-    <?php require_once(_DIR_ROOT . '/app/views/blocks/header.php'); ?>
-    <?php require_once(_DIR_ROOT . '/app/views/blocks/menu.php'); ?>
-    <div id="main-container">
-        <div class="container staff-container" id="container">
-            <div class="model"></div>
-            <div class="content">
-                <?php $this->render($content, $sub_content); ?>
-            </div>
+<?php require_once(_DIR_ROOT . '/app/views/blocks/header.php'); ?>
+<?php require_once(_DIR_ROOT . '/app/views/blocks/menu.php'); ?>
+<div id="main-container">
+    <div class="container staff-container" id="container">
+        <div class="model"></div>
+        <div class="content">
+            <?php $this->render($content, $sub_content); ?>
         </div>
     </div>
+</div>
 </body>
 <!-- Link to bootstrap 5 -->
 <script src="<?php echo _WEB_ROOT ?>/bootstrap/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>

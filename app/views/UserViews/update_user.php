@@ -38,13 +38,13 @@
                 <div>
                     <span>
                         <input class="username" data-user="<?php echo $user['id'] ?>" type="text"
-                            value="<?php echo $user['username'] ?>" name="username">
+                               value="<?php echo $user['username'] ?>" name="username">
                     </span>
                 </div>
                 <div>
                     <span>
                         <input class="password" type="text" value="<?php echo $user['password'] ?>"
-                            name="password">
+                               name="password">
                     </span>
                 </div>
                 <div>
@@ -60,7 +60,7 @@
                 <div>
                     <span>
                         <input class="status" type="number" min="0" max="1" value="<?php echo $user['status'] ?>"
-                            name="status">
+                               name="status">
                     </span>
                 </div>
                 <div class="setting">

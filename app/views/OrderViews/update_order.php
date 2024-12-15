@@ -35,10 +35,10 @@
                             foreach ($list_table as $key1 => $value1) {
                                 if ($value1['id'] != $unpaidbill[0]['tableID']) {
                                     ?>
-                                            <option value="<?php echo $value1['id'] ?>">
+                                    <option value="<?php echo $value1['id'] ?>">
                                                 <?php echo $value1['name'] ?>
                                             </option>
-                                            <?php
+                                    <?php
                                 }
                             }
                             ?>
@@ -64,10 +64,10 @@
                             foreach ($list_food as $key1 => $value1) {
                                 if ($unpaidbill[0]['foodID'] != $value1['id']) {
                                     ?>
-                                            <option value="<?php echo $value1['id'] ?>">
+                                    <option value="<?php echo $value1['id'] ?>">
                                                 <?php echo $value1['name'] ?>
                                             </option>
-                                            <?php
+                                    <?php
                                 }
                             }
                             ?>
@@ -124,7 +124,7 @@
             </div>
         </div>
         <script>
-            $('.btn-update input').click(() => {
+            $(document).on('click', '.btn-update input', function () {
                 var formData = new FormData();
                 if (
                     $('select[name="tableID"]').val() == '' ||
@@ -148,6 +148,10 @@
                         data: formData,
                         contentType: false,
                         processData: false,
+                        beforeSend: function () {
+                            // Disable the button before sending the request
+                            $('.btn-update input').prop('disabled', true);
+                        },
                         success: (data) => {
                             $.ajax({
                                 url: '<?php echo _WEB_ROOT ?>/cap-nhat-don-dat/' + orderID + '.' + FoodOldId,
@@ -156,11 +160,18 @@
                                 contentType: false,
                                 processData: false,
                                 success: (data) => {
-                                    url = '<?php echo _WEB_ROOT ?>/chi-tiet-don-dat/' + orderID + '.' + foodID;
-                                    window.location.href = url;
+                                    const parser = new DOMParser();
+                                    formData.delete('tableId')
+                                    formData.delete('foodID');
+                                    formData.delete('quantity');
+                                    formData.delete('btn-update');
+                                    const htmlDoc = parser.parseFromString(data, 'text/html');
+                                    const mainContainer = htmlDoc.getElementById('main-container').getElementsByClassName('order-detail')[0];
+                                    $('.btn-update input').prop('disabled', false);
+                                    $('.order-update-form').html(mainContainer);
                                 }
                             })
-                        }
+                        },
                     })
                 }
             })

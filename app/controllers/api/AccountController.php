@@ -1,7 +1,9 @@
 <?php
+
 class AccountController extends Controller
 {
     public $data = [], $nguoidung, $phanquyen;
+
     function signin()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -41,6 +43,7 @@ class AccountController extends Controller
             echo 'oke';
         }
     }
+
     function signout()
     {
         if (isset($_SESSION['user_logged'])) {
@@ -53,6 +56,7 @@ class AccountController extends Controller
         }
         echo json_encode($this->data);
     }
+
     function checkSigned()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {

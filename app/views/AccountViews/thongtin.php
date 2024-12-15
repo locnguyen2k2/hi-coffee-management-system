@@ -33,6 +33,6 @@
         </ul>
     </div>
     <div class="user_info__logout">
-        <a href="<?php echo _WEB_ROOT?>/dang-xuat">Đăng xuất</a>
+        <a href="<?php echo _WEB_ROOT ?>/dang-xuat">Đăng xuất</a>
     </div>
 </div>

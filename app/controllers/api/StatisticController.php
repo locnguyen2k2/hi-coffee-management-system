@@ -1,12 +1,15 @@
 <?php
+
 class StatisticController extends Controller
 {
     public $statistic = [];
     public $data = [];
+
     function __construct()
     {
         $this->statistic = $this->model('StatisticModel');
     }
+
     function getDailyInvoiceStatistic()
     {
         if (isset($_POST['statistical_type']) && $_POST['statistical_type'] == 'day') {
@@ -42,6 +45,7 @@ class StatisticController extends Controller
         }
         echo json_encode($this->data);
     }
+
     function getInvoiceStatisticsInRange()
     {
         if (isset($_POST['statistical_type']) && $_POST['statistical_type'] == 'range') {

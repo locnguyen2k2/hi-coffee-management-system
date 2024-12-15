@@ -1,8 +1,10 @@
-<?php 
+<?php
+
 class StatisticController extends Controller
 {
     public $statistic = [];
     public $data = [];
+
     function __construct()
     {
         if (!isset($_SESSION['user_logged']['roles']['admin'])) {
@@ -12,11 +14,13 @@ class StatisticController extends Controller
             $this->data['content'] = 'StatisticViews/statistic';
         }
     }
+
     function Statistic()
     {
         $this->data['sub_content'] = [];
         $this->render('layouts/admin_layout', $this->data);
     }
+
     function getDailyInvoiceStatistic()
     {
         if (isset($_POST['statistical_type']) && $_POST['statistical_type'] == 'day') {
@@ -41,6 +45,7 @@ class StatisticController extends Controller
             $this->render('layouts/admin_layout', $this->data);
         }
     }
+
     function getInvoiceStatisticsInRange()
     {
         if (isset($_POST['statistical_type']) && $_POST['statistical_type'] == 'range') {

@@ -28,7 +28,7 @@
                 <div>
                     <span>
                         <input class="name" food-data="<?php echo $food['id'] ?>" type="text"
-                            value="<?php echo $food['name'] ?>" name="name">
+                               value="<?php echo $food['name'] ?>" name="name">
                     </span>
                 </div>
                 <div>
@@ -51,8 +51,8 @@
                 <div>
                     <span>
                         <img class="food-image"
-                            src="<?php echo _WEB_ROOT ?>/public/static/imgs/uploadfiles/<?php echo $food['imageName'] ?>"
-                            alt="">
+                             src="<?php echo _WEB_ROOT ?>/public/static/imgs/uploadfiles/<?php echo $food['imageName'] ?>"
+                             alt="">
                     </span>
                 </div>
                 <div class="images" title="Hình ảnh trước đó của món sẽ được thay thế bởi ảnh sau khi cập nhật">
@@ -69,7 +69,7 @@
                 <div>
                     <span>
                         <input class="status" type="number" min="0" max="1" value="<?php echo $food['status'] ?>"
-                            name="status">
+                               name="status">
                     </span>
                 </div>
                 <div class="setting">
