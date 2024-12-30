@@ -10,6 +10,13 @@ class OrderModel
         return $row;
     }
 
+    function getDetailOrder($id)
+    {
+        $sql = "SELECT tbl_order.id, tbl_order.foodID, tbl_order.quantity, tbl_order.created_at, tbl_order.updated_at FROM tbl_order WHERE tbl_order.id = $id ORDER BY created_at DESC;";
+        $row = pdo_query($sql);
+        return $row;
+    }
+
     // Cập nhật đơn đặt: Mã đơn đặt, mã món, số lượng
     function updateOrder($orderID, $foodOldID, $foodID, $quantity)
     {

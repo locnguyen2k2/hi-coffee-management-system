@@ -71,7 +71,7 @@ class FoodModel
         ) latest_hinhanh ON tbl_food.id = latest_hinhanh.foodID
         LEFT JOIN tbl_image_food  ON tbl_image_food.id = latest_hinhanh.id AND tbl_image_food.created_at = latest_hinhanh.max_created_at
         LEFT JOIN tbl_image ON tbl_image.id = tbl_image_food.imageID and tbl_food.id = $id
-        JOIN tbl_type ON tbl_type.id = tbl_food.typeID LIMIT 1";
+        JOIN tbl_type ON tbl_type.id = tbl_food.typeID  AND tbl_food.id = $id  LIMIT 1";
         $row = pdo_query_one($sql);
         return $row;
     }

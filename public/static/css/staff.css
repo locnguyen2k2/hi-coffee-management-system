@@ -133,7 +133,8 @@
 }
 
 .left-content .food .content {
-    height: 510px;
+    height: max-content;
+    max-height: 510px;
     overflow-y: scroll;
     scroll-behavior: smooth;
 }
@@ -152,13 +153,18 @@
 }
 
 .order-container .left-content .content .item {
-    width: calc(100%/3);
+    width: calc(100%/3 - 6px);
     padding: 5px 10px;
+    margin: 3px;
     cursor: pointer;
     color: #e9c46a;
     border: 1px solid #e9c46a;
     height: calc(100%/3);
     background-color: #264653;
+}
+
+.order-container .left-content .content .food-item {
+    height: 170px;
 }
 
 .order-container .left-content .content .item img {
@@ -191,7 +197,8 @@
     width: 320px;
     padding: 5px 10px;
     margin: 0 auto;
-    background-color: #ede1c6;
+    border-radius: 8px;
+    border: 2px black solid;
 }
 
 .order-detail div {

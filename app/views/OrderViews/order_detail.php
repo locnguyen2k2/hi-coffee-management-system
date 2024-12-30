@@ -57,9 +57,6 @@
                     <a order-data="<?php echo $order_detail['orderID'] ?>.<?php echo $order_detail['foodID'] ?>">Cập
                         nhật</a>
                 </div>
-                <div class="btn-add-food">
-                    <a>Thêm món</a>
-                </div>
                 <div class="btn-pay">
                     <form method="post"
                           action="<?php echo _WEB_ROOT ?>/thanh-toan-don-dat/<?php echo $order_detail['orderID'] ?>.<?php echo $order_detail['foodID'] ?>">
