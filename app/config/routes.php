@@ -50,7 +50,7 @@ $routes['thong-ke-hoa-don-trong-ngay'] = 'StatisticController/getDailyInvoiceSta
 // APIs
 $routes['api/dang-nhap'] = 'api/AccountController/signin/';
 $routes['api/danh-sach-mon'] = 'api/FoodController/getListFood/';
-$routes['api/danh-sach-mon'] = 'api/CategoryController/getListCategory/';
+$routes['api/danh-sach-loai'] = 'api/CategoryController/getListCategory/';
 $routes['api/them-hoa-don'] = 'api/OrderController/addOrder';
 $routes['api/chi-tiet-hoa-don'] = 'api/InvoiceController/getInvoiceDetail/';
 $routes['api/danh-sach-hoa-don-theo-ban'] = 'api/InvoiceController/getListInvoiceByTable/';

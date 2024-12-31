@@ -54,7 +54,6 @@ class OrderController extends Controller
                                 $this->data['message'] = 'Món không tồn tại!';
                                 $this->data['error'] = 1;
                             } else {
-                                $order_id = time();
                                 if ($this->table->getTableByID($table_id)['status'] == 0) {
                                     $this->table->updateTableStatus($table_id, 1);
                                 }
@@ -74,12 +73,19 @@ class OrderController extends Controller
                                         }
                                     }
                                 }
+
+                                foreach ($listFood01 as $key01 => $value01) {
+                                    if (!isset($value01->order_id)) {
+                                        $value01->order_id = time() + $key01 + 1;
+                                    }
+                                }
+
                                 foreach ($listFood01 as $key => $value) {
                                     $food_id = $this->food->getFoodByName($value->food_name)['id'];
                                     $typeID = $this->food->getFoodByName($value->food_name)['typeID'];
                                     $price = $this->food->getFoodByName($value->food_name)['price'];
-                                    $this->order->addOrder($order_id, $food_id, $value->quantity);
-                                    $this->orderdetail->addOrderDetail($order_id, $table_id, $food_id, $typeID, $price, $value->quantity, $value->quantity * $price);
+                                    $this->order->addOrder($value->order_id, $food_id, $value->quantity);
+                                    $this->orderdetail->addOrderDetail($value->order_id, $table_id, $food_id, $typeID, $price, $value->quantity, $value->quantity * $price);
                                 }
                                 $unpaidBills = $this->tempinvoice->getListTempInvoice();
                                 if (count($unpaidBills) == 0) {
@@ -89,7 +95,7 @@ class OrderController extends Controller
                                         $typeID = $this->food->getFoodByName($value->food_name)['typeID'];
                                         $price = $this->food->getFoodByName($value->food_name)['price'];
                                         $quantity = $value->quantity;
-                                        $this->tempinvoice->addTempInvoice($unpaidBillID, $table_id, $order_id, $food_id, $typeID, $price, $quantity, $quantity * $price, $_SESSION['user_logged']['username']);
+                                        $this->tempinvoice->addTempInvoice($unpaidBillID, $table_id, $value->order_id, $food_id, $typeID, $price, $quantity, $quantity * $price, $_SESSION['user_logged']['username']);
                                     }
                                     $this->data['message'] = 'Đặt món thành công!';
                                     $this->data['error'] = 0;
@@ -103,7 +109,7 @@ class OrderController extends Controller
                                                 $typeID = $this->food->getFoodByName($value1->food_name)['typeID'];
                                                 $price = $this->food->getFoodByName($value1->food_name)['price'];
                                                 $quantity = $value1->quantity;
-                                                $this->tempinvoice->addTempInvoice($unpaidBillID, $table_id, $order_id, $food_id, $typeID, $price, $quantity, $quantity * $price, $_SESSION['user_logged']['username']);
+                                                $this->tempinvoice->addTempInvoice($unpaidBillID, $table_id, $value1->order_id, $food_id, $typeID, $price, $quantity, $quantity * $price, $_SESSION['user_logged']['username']);
                                             }
                                             $result = true;
                                             break;
@@ -116,7 +122,7 @@ class OrderController extends Controller
                                             $typeID = $this->food->getFoodByName($value->food_name)['typeID'];
                                             $price = $this->food->getFoodByName($value->food_name)['price'];
                                             $quantity = $value->quantity;
-                                            $this->tempinvoice->addTempInvoice($unpaidBillID, $table_id, $order_id, $food_id, $typeID, $price, $quantity, $quantity * $price, $_SESSION['user_logged']['username']);
+                                            $this->tempinvoice->addTempInvoice($unpaidBillID, $table_id, $value->order_id, $food_id, $typeID, $price, $quantity, $quantity * $price, $_SESSION['user_logged']['username']);
                                         }
                                     }
                                     $this->data['message'] = 'Đặt món thành công!';
@@ -430,10 +436,13 @@ class OrderController extends Controller
                     $tables->updateTableStatus($tableID, 0);
                 }
             }
-            header('Location: ' . _WEB_ROOT . '/them-don-dat');
+            $this->data['error'] = 0;
+            $this->data['message'] = 'Thanh toán đơn đặt thành công!';
         } else {
-            header('Location: ' . _WEB_ROOT . '/them-don-dat');
+            $this->data['error'] = 1;
+            $this->data['message'] = 'Bad request!';
         }
+        echo json_encode($this->data);
     }
 
     function updateOrder()
