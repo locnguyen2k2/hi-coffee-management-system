@@ -17,7 +17,7 @@
                 <option value="loai">Loại</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-dark btn-statistical">Thống kê</button>
+        <button type="submit" title="Thống kê" class="btn btn-dark btn-statistical">Duyệt</button>
     </div>
 </div>
 <canvas id="myChart"></canvas>

@@ -129,7 +129,7 @@ class OrderController extends Controller
                                             $typeID = $this->food->getFoodByName($value1->food_name)['typeID'];
                                             $price = $this->food->getFoodByName($value1->food_name)['price'];
                                             $quantity = $value1->quantity;
-                                            $this->tempinvoice->addTempInvoice($unpaidBillID, $table_id, $value->order_id, $food_id, $typeID, $price, $quantity, $quantity * $price, $_SESSION['user_logged']['username']);
+                                            $this->tempinvoice->addTempInvoice($unpaidBillID, $table_id, $value1->order_id, $food_id, $typeID, $price, $quantity, $quantity * $price, $_SESSION['user_logged']['username']);
                                         }
                                         $result = true;
                                         break;

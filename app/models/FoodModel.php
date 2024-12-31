@@ -32,6 +32,7 @@ class FoodModel
             SELECT id, foodID, MAX(created_at) AS max_created_at
             FROM tbl_image_food
             GROUP BY id
+            ORDER BY max_created_at DESC
         ) latest_hinhanh ON tbl_food.id = latest_hinhanh.foodID
         LEFT JOIN tbl_image_food  ON tbl_image_food.id = latest_hinhanh.id AND tbl_image_food.created_at = latest_hinhanh.max_created_at
         LEFT JOIN tbl_image ON tbl_image.id = tbl_image_food.imageID
@@ -68,6 +69,7 @@ class FoodModel
             SELECT id, foodID, MAX(created_at) AS max_created_at
             FROM tbl_image_food
             GROUP BY id
+            ORDER BY max_created_at DESC
         ) latest_hinhanh ON tbl_food.id = latest_hinhanh.foodID
         LEFT JOIN tbl_image_food  ON tbl_image_food.id = latest_hinhanh.id AND tbl_image_food.created_at = latest_hinhanh.max_created_at
         LEFT JOIN tbl_image ON tbl_image.id = tbl_image_food.imageID and tbl_food.id = $id

@@ -42,19 +42,19 @@
             <div><span>4) Giá sản món: </span></div>
             <div><input type="number" name="price" placeholder="Nhập giá sản món"></div>
         </div>
-        <div class="featured">
-            <div><span>5) Nổi bật: </span></div>
-            <div>
-                <div>
-                    <input type="radio" value="0" name="featured">
-                    <label for="type">Không</label>
-                </div>
-                <div>
-                    <input type="radio" value="1" name="featured">
-                    <label for="type">Có</label>
-                </div>
-            </div>
-        </div>
+<!--        <div class="featured">-->
+<!--            <div><span>5) Nổi bật: </span></div>-->
+<!--            <div>-->
+<!--                <div>-->
+<!--                    <input type="radio" value="0" name="featured">-->
+<!--                    <label for="type">Không</label>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <input type="radio" value="1" name="featured">-->
+<!--                    <label for="type">Có</label>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="add-btn"><input type="submit" name="add-food-btn" value="Thêm"></div>
     </div>
 </div>
@@ -77,7 +77,7 @@
             formData.append('name', name);
             formData.append('type', type);
             formData.append('price', price);
-            formData.append('featured', featured);
+            formData.append('featured', false);
             formData.append('add-food-btn', true);
             let fileInput = document.getElementById('image-upload');
             let url = '<?php echo _WEB_ROOT ?>/them-mon';

@@ -173,6 +173,7 @@
     object-fit: fill;
 }
 
+.order-container .table a,
 .order-container .order-item .items span {
     display: -webkit-box;
     overflow: hidden;
