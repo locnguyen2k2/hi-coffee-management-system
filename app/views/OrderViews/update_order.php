@@ -149,29 +149,26 @@
                         contentType: false,
                         processData: false,
                         beforeSend: function () {
-                            // Disable the button before sending the request
                             $('.btn-update input').prop('disabled', true);
                         },
                         success: (data) => {
-                            location = '<?php echo _WEB_ROOT ?>/them-don-dat/'
-                            //$.ajax({
-                            //    url: '<?php //echo _WEB_ROOT ?>///them-don-dat/',
-                            //    type: 'GET',
-                            //    data: formData,
-                            //    contentType: false,
-                            //    processData: false,
-                            //    success: (data) => {
-                            //        const parser = new DOMParser();
-                            //        formData.delete('tableId')
-                            //        formData.delete('foodID');
-                            //        formData.delete('quantity');
-                            //        formData.delete('btn-update');
-                            //        const htmlDoc = parser.parseFromString(data, 'text/html');
-                            //        const mainContainer = htmlDoc.getElementById('main-container').getElementsByClassName('order-detail')[0];
-                            //        $('.btn-update input').prop('disabled', false);
-                            //        $('.order-update-form').html(mainContainer);
-                            //    }
-                            //})
+                            $.ajax({
+                                url: '<?php echo _WEB_ROOT ?>/cap-nhat-don-dat/' + orderID + '.' + foodID,
+                                type: 'GET',
+                                contentType: false,
+                                processData: false,
+                                success: (data) => {
+                                    const parser = new DOMParser();
+                                    formData.delete('tableId')
+                                    formData.delete('foodID');
+                                    formData.delete('quantity');
+                                    formData.delete('btn-update');
+                                    const htmlDoc = parser.parseFromString(data, 'text/html');
+                                    const mainContainer = htmlDoc.getElementById('main-container').getElementsByClassName('order-detail')[0];
+                                    $('.btn-update input').prop('disabled', false);
+                                    $('.order-update-form').html(mainContainer);
+                                }
+                            })
                         },
                     })
                 }

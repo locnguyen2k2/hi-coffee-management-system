@@ -130,6 +130,7 @@
     wsClient.conn.onmessage = (event) => {
         const tableNameItem = tableItem.filter('.active').attr('data-table');
         const newestTableData = JSON.parse(event.data);
+        console.log(newestTableData);
 
         if (newestTableData.old_table_status === true) {
             tableSelect.find(`option[value="${newestTableData.old_table}"]`).text(`${newestTableData.old_table}`);
@@ -173,7 +174,6 @@
                 }
             });
         }
-
         if (tableNameItem === newestTableData.new_table) {
             $.ajax({
                 url: "<?php echo _WEB_ROOT ?>/them-don-dat",
@@ -396,29 +396,13 @@
                 var url = "<?php echo _WEB_ROOT ?>/them-don-dat";
                 var table_name = $(this).parent().parent().find('.table select').val();
                 var formData = new FormData();
-                formData.append('btn-add-order', true);
-                if (foodQuantityData.length == 1) {
-                    formData.append('food_name', foodQuantityData[0].food_name);
-                    formData.append('table_name', table_name);
-                    formData.append('quantity', foodQuantityData[0].quantity);
-                    $.ajax({
-                        url: url,
-                        type: "POST",
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        success: (response) => {
-                            formData.delete('food_name');
-                            formData.delete('table_name');
-                            formData.delete('quantity');
-                            formData.delete('btn-add-order');
-                            location.reload();
-                        }
-                    });
-                } else {
+
+
+                if (foodQuantityData.length > 0) {
                     formData.append('list_food', JSON.stringify(foodQuantityData));
                     formData.append('table_name', table_name);
                     formData.append('btn-add-order', true);
+
                     $.ajax({
                         url: url,
                         type: "POST",
@@ -427,10 +411,44 @@
                         processData: false,
                         success: (response) => {
                             formData.delete('btn-add-order');
-                            location.reload();
+                            // location.reload();
                         }
                     });
                 }
+                /*                if (foodQuantityData.length == 1) {
+                                    formData.append('food_name', foodQuantityData[0].food_name);
+                                    formData.append('table_name', table_name);
+                                    formData.append('quantity', foodQuantityData[0].quantity);
+                                    $.ajax({
+                                        url: url,
+                                        type: "POST",
+                                        data: formData,
+                                        contentType: false,
+                                        processData: false,
+                                        success: (response) => {
+                                            formData.delete('food_name');
+                                            formData.delete('table_name');
+                                            formData.delete('quantity');
+                                            formData.delete('btn-add-order');
+                                            location.reload();
+                                        }
+                                    });
+                                } else {
+                                    formData.append('list_food', JSON.stringify(foodQuantityData));
+                                    formData.append('table_name', table_name);
+                                    formData.append('btn-add-order', true);
+                                    $.ajax({
+                                        url: url,
+                                        type: "POST",
+                                        data: formData,
+                                        contentType: false,
+                                        processData: false,
+                                        success: (response) => {
+                                            formData.delete('btn-add-order');
+                                            location.reload();
+                                        }
+                                    });
+                                }*/
             }
         }
     })

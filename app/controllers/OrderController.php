@@ -47,7 +47,7 @@ class OrderController extends Controller
         }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Nếu có dữ liệu POST lên thì xử lý
             if (isset($_POST['btn-add-order'])) { // Nếu là thêm đơn đặt
-                if (isset($_POST['list_food']) || ($this->isFieldValid($_POST['food_name']) && $_POST['quantity'] > 0 && $this->isFieldValid($_POST['table_name']))) { // Nếu có dữ liệu POST lên thì xử lý
+                if (isset($_POST['list_food']) && count(json_decode($_POST['list_food'])) > 0 && $this->isFieldValid($_POST['table_name'])) {
                     $table_id = $this->table->getTableByName($_POST['table_name'])['id'];
                     function checkFood($food_id, $food_list) // Kiểm tra món có tồn tại trong danh sách món không
                     {
@@ -62,7 +62,7 @@ class OrderController extends Controller
                     if (!isset($table_id)) { // Kiểm tra bàn có tồn tại không
                         $this->data['sub_content']['isNull'] = '<div class="alert alert-danger" role="alert">Bàn không tồn tại!</div>';
                         $this->render('layouts/staff_layout', $this->data);
-                    } else if (isset($_POST['list_food']) && count(json_decode($_POST['list_food'])) > 1) { // Nếu có dữ liệu POST lên thì xử lý
+                    } else {
                         $listFood = json_decode($_POST['list_food']);
                         $notexist = false;
                         foreach ($listFood as $key => $value) {
@@ -117,6 +117,10 @@ class OrderController extends Controller
                                     $quantity = $value->quantity;
                                     $this->tempinvoice->addTempInvoice($unpaidBillID, $table_id, $value->order_id, $food_id, $typeID, $price, $quantity, $quantity * $price, $_SESSION['user_logged']['username']);
                                 }
+                                $this->client->send(json_encode([
+                                    'new_table' => $this->table->getTableByID($table_id)['name'],
+                                    'new_table_status' => true,
+                                ]));
                                 $this->data['sub_content']['isSucessed'] = '<div class="alert alert-success" role="alert">Đặt món thành công!</div>';
                                 $this->render('layouts/staff_layout', $this->data);
                             } else {
@@ -145,50 +149,55 @@ class OrderController extends Controller
                                         $this->tempinvoice->addTempInvoice($unpaidBillID, $table_id, $value->order_id, $food_id, $typeID, $price, $quantity, $quantity * $price, $_SESSION['user_logged']['username']);
                                     }
                                 }
+                                $this->client->send(json_encode([
+                                    'new_table' => $this->table->getTableByID($table_id)['name'],
+                                    'new_table_status' => true,
+                                ]));
                                 $this->data['sub_content']['isSucessed'] = '<div class="alert alert-success" role="alert">Đặt món thành công!</div>';
                                 $this->render('layouts/staff_layout', $this->data);
                             }
                         }
-                    } else if (isset($_POST['food_name']) && isset($_POST['quantity']) && $_POST['quantity'] > 0 && isset($_POST['table_name'])) { // Đặt món từ trang danh sách món
-                        $food_id = $this->food->getFoodByName($_POST['food_name'])['id'];
-                        $quantity = $_POST['quantity'];
-                        $typeID = $this->food->getFoodByID($food_id)['typeID'];
-                        $price = $this->food->getFoodByID($food_id)['price'];
-                        echo $food_id;
-                        if (checkFood($food_id, $this->food->getListFood()) == false) {
-                            $this->data['sub_content']['isNull'] = '<div class="alert alert-danger" role="alert">Món không tồn tại!</div>';
-                            $this->render('layouts/staff_layout', $this->data);
-                        } else {
-                            $order_id = time();
-                            $this->order->addOrder($order_id, $food_id, $quantity);
-                            if ($this->table->getTableByID($table_id)['status'] == 0) { // Bàn trống
-                                $this->table->updateTableStatus($table_id, 1);
-                            }
-                            $this->orderdetail->addOrderDetail($order_id, $table_id, $food_id, $this->food->getFoodByID($food_id)['typeID'], $this->food->getFoodByID($food_id)['price'], $quantity, $quantity * $this->food->getFoodByID($food_id)['price']);
-                            $unpaidBills = $this->tempinvoice->getListTempInvoice();
-                            $result = false;
-                            if (count($unpaidBills) == 0) { // Chưa có hóa đơn tạm
-                                $unpaidBillID = $this->invoice->getListInvoice()[0]['id'] + 1;
-                                $this->tempinvoice->addTempInvoice($unpaidBillID, $table_id, $order_id, $food_id, $typeID, $price, $quantity, $quantity * $this->food->getFoodByID($food_id)['price'], $_SESSION['user_logged']['username']);
-                                $this->data['sub_content']['isSucessed'] = '<div class="alert alert-success" role="alert">Đặt món thành công!</div>';
-                                $this->render('layouts/staff_layout', $this->data);
-                            } else {
-                                foreach ($unpaidBills as $key => $value) {
-                                    if ($value['tableID'] == $table_id) { // Đã có hóa đơn tạm
-                                        $this->tempinvoice->addTempInvoice($value['id'], $table_id, $order_id, $food_id, $typeID, $price, $quantity, $quantity * $this->food->getFoodByID($food_id)['price'], $_SESSION['user_logged']['username']);
-                                        $result = true;
-                                        break;
-                                    }
-                                }
-                                if ($result == false) { // Chưa có hóa đơn tạm
-                                    $this->tempinvoice->addTempInvoice($this->tempinvoice->getListTempInvoice()[0]['id'] + 1, $table_id, $order_id, $food_id, $typeID, $price, $quantity, $quantity * $this->food->getFoodByID($food_id)['price'], $_SESSION['user_logged']['username']);
-                                }
-                                $this->data['sub_content']['isSucessed'] = '<div class="alert alert-success" role="alert">Đặt món thành công!</div>';
-                                $this->render('layouts/staff_layout', $this->data);
-                            }
-                        }
-                        $this->render('layouts/staff_layout', $this->data);
                     }
+                    /*                    else if (isset($_POST['food_name']) && isset($_POST['quantity']) && $_POST['quantity'] > 0 && isset($_POST['table_name'])) {
+                                            $food_id = $this->food->getFoodByName($_POST['food_name'])['id'];
+                                            $quantity = $_POST['quantity'];
+                                            $typeID = $this->food->getFoodByID($food_id)['typeID'];
+                                            $price = $this->food->getFoodByID($food_id)['price'];
+                                            echo $food_id;
+                                            if (checkFood($food_id, $this->food->getListFood()) == false) {
+                                                $this->data['sub_content']['isNull'] = '<div class="alert alert-danger" role="alert">Món không tồn tại!</div>';
+                                                $this->render('layouts/staff_layout', $this->data);
+                                            } else {
+                                                $order_id = time();
+                                                $this->order->addOrder($order_id, $food_id, $quantity);
+                                                if ($this->table->getTableByID($table_id)['status'] == 0) { // Bàn trống
+                                                    $this->table->updateTableStatus($table_id, 1);
+                                                }
+                                                $this->orderdetail->addOrderDetail($order_id, $table_id, $food_id, $this->food->getFoodByID($food_id)['typeID'], $this->food->getFoodByID($food_id)['price'], $quantity, $quantity * $this->food->getFoodByID($food_id)['price']);
+                                                $unpaidBills = $this->tempinvoice->getListTempInvoice();
+                                                $result = false;
+                                                if (count($unpaidBills) == 0) { // Chưa có hóa đơn tạm
+                                                    $unpaidBillID = $this->invoice->getListInvoice()[0]['id'] + 1;
+                                                    $this->tempinvoice->addTempInvoice($unpaidBillID, $table_id, $order_id, $food_id, $typeID, $price, $quantity, $quantity * $this->food->getFoodByID($food_id)['price'], $_SESSION['user_logged']['username']);
+                                                    $this->data['sub_content']['isSucessed'] = '<div class="alert alert-success" role="alert">Đặt món thành công!</div>';
+                                                    $this->render('layouts/staff_layout', $this->data);
+                                                } else {
+                                                    foreach ($unpaidBills as $key => $value) {
+                                                        if ($value['tableID'] == $table_id) { // Đã có hóa đơn tạm
+                                                            $this->tempinvoice->addTempInvoice($value['id'], $table_id, $order_id, $food_id, $typeID, $price, $quantity, $quantity * $this->food->getFoodByID($food_id)['price'], $_SESSION['user_logged']['username']);
+                                                            $result = true;
+                                                            break;
+                                                        }
+                                                    }
+                                                    if ($result == false) { // Chưa có hóa đơn tạm
+                                                        $this->tempinvoice->addTempInvoice($this->tempinvoice->getListTempInvoice()[0]['id'] + 1, $table_id, $order_id, $food_id, $typeID, $price, $quantity, $quantity * $this->food->getFoodByID($food_id)['price'], $_SESSION['user_logged']['username']);
+                                                    }
+                                                    $this->data['sub_content']['isSucessed'] = '<div class="alert alert-success" role="alert">Đặt món thành công!</div>';
+                                                    $this->render('layouts/staff_layout', $this->data);
+                                                }
+                                            }
+                                            $this->render('layouts/staff_layout', $this->data);
+                                        }*/
                 } else {
                     $this->data['sub_content']['isNull'] = '<div class="alert alert-danger" role="alert">Vui lòng nhập đầy đủ thông tin!</div>';
                     $this->render('layouts/staff_layout', $this->data);
@@ -265,6 +274,31 @@ class OrderController extends Controller
             header('Location: ' . _WEB_ROOT . '/them-don-dat');
         }
         $this->render('layouts/staff_layout', $this->data);
+    }
+
+    function processOrderPayment($id)
+    {
+        $orderID = explode('.', $id)[0];
+        $foodID = explode('.', $id)[1];
+        if ($this->isFieldValid($this->tempinvoice->getTempInvoiceByOrder($orderID, $foodID)[0]['orderID']) && isset($_POST['btn-pay-order'])) { // Kiểm tra xem có tồn tại đơn đặt và món đó không
+            $order = $this->orderdetail->getOrderDetail($orderID, $foodID);
+            $type_id = $order['typeID'];
+            $table_id = $order['tableID'];
+            $price = $order['price'];
+            $quantity = $order['quantity'];
+            $total = $price * $quantity;
+            $this->orderdetail->updateOrderDetailStatus($orderID, $foodID, 1);
+            $this->invoice->addInvoice($this->tempinvoice->getTempInvoiceByOrder($orderID, $foodID)[0]['id'], $table_id, $orderID, $foodID, $type_id, $price, $quantity, $total, $_SESSION['user_logged']['username']);
+            $tableID = $this->tempinvoice->getTempInvoiceByOrder($orderID, $foodID)[0]['tableID'];
+            $this->invoice->deleteTempInvoice($orderID, $foodID);
+            $tables = $this->model('TableModel');
+            if ($this->tempinvoice->getTempInvoiceByTable($tableID) == false) { // Kiểm tra xem bàn đó có đang có đơn đặt nào không
+                $tables->updateTableStatus($tableID, 0);
+            }
+            header('Location: ' . _WEB_ROOT . '/them-don-dat');
+        } else {
+            header('Location: ' . _WEB_ROOT . '/them-don-dat');
+        }
     }
     // function thanhtoan_vnpay()
     // {
@@ -376,31 +410,6 @@ class OrderController extends Controller
     // // vui lòng tham khảo thêm tại code demo
     // }
 
-    function processOrderPayment($id)
-    {
-        $orderID = explode('.', $id)[0];
-        $foodID = explode('.', $id)[1];
-        if ($this->isFieldValid($this->tempinvoice->getTempInvoiceByOrder($orderID, $foodID)[0]['orderID']) && isset($_POST['btn-pay-order'])) { // Kiểm tra xem có tồn tại đơn đặt và món đó không
-            $order = $this->orderdetail->getOrderDetail($orderID, $foodID);
-            $type_id = $order['typeID'];
-            $table_id = $order['tableID'];
-            $price = $order['price'];
-            $quantity = $order['quantity'];
-            $total = $price * $quantity;
-            $this->orderdetail->updateOrderDetailStatus($orderID, $foodID, 1);
-            $this->invoice->addInvoice($this->tempinvoice->getTempInvoiceByOrder($orderID, $foodID)[0]['id'], $table_id, $orderID, $foodID, $type_id, $price, $quantity, $total, $_SESSION['user_logged']['username']);
-            $tableID = $this->tempinvoice->getTempInvoiceByOrder($orderID, $foodID)[0]['tableID'];
-            $this->invoice->deleteTempInvoice($orderID, $foodID);
-            $tables = $this->model('TableModel');
-            if ($this->tempinvoice->getTempInvoiceByTable($tableID) == false) { // Kiểm tra xem bàn đó có đang có đơn đặt nào không
-                $tables->updateTableStatus($tableID, 0);
-            }
-            header('Location: ' . _WEB_ROOT . '/them-don-dat');
-        } else {
-            header('Location: ' . _WEB_ROOT . '/them-don-dat');
-        }
-    }
-
     function processAllOrderPayment()
     {
         if (isset($_POST['btn-pay-all-order']) && $_POST['bill_id']) {
@@ -480,13 +489,14 @@ class OrderController extends Controller
                     if (count($unpaid_bills_table_after) > 0) {
                         $this->table->updateTableStatus($table_id, 1);
                     }
+                    $this->data['sub_content']['food_id'] = 10;
                     $this->client->send(json_encode([
                         'old_table' => $this->table->getTableByID($table_id_before)['name'],
                         'old_table_status' => count($unpaid_bills_table_before) === 0,
                         'new_table' => $this->table->getTableByID($table_id)['name'],
                         'new_table_status' => count($unpaid_bills_table_after) === 1,
                     ]));
-                    header('Location: ' . _WEB_ROOT . '/' . 'cap-nhat-don-dat' . '/' . $orderID . '.' . $food_id);
+                    $this->render('layouts/staff_layout', $this->data);
                 } else {
                     header('Location: ' . _WEB_ROOT . '/them-don-dat');
                 }
@@ -496,8 +506,8 @@ class OrderController extends Controller
                 $this->data['sub_content']['list_table'] = $this->table->getListTable();
                 $this->data['sub_content']['list_food'] = $this->food->getListFood();
                 $this->data['sub_content']['list_type'] = $this->type->getListType();
+                $this->render('layouts/staff_layout', $this->data);
             }
-            $this->render('layouts/staff_layout', $this->data);
         } else {
             header('Location: ' . _WEB_ROOT . '/them-don-dat');
         }
